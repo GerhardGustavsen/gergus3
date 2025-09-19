@@ -1,0 +1,26 @@
+---
+import "./article.css";
+import Layout from "./main.astro";
+import Title from "../components/title.astro";
+const { frontmatter } = Astro.props;
+---
+
+<Layout>
+  <div class="article">
+    <Title title={frontmatter.title} />
+
+    {!frontmatter.draft && <slot />}
+    {frontmatter.draft && <p>🚧👷Under construction🚧</p>}
+    <div class="text-sm">
+      <p class="">Written by Gerhard</p>
+      <div class="flex mb-[-45px]">
+        <div class="flex-1">
+          <p class="border-fgLight border-t-[2px] pt-[0.05em]">
+            {new Date(frontmatter.date).toLocaleDateString("en-UK")}
+          </p>
+        </div>
+        <img class="translate-y-[-15px]" width="45px" src="/favicon.svg" />
+      </div>
+    </div>
+  </div>
+</Layout>

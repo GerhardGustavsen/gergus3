@@ -1,0 +1,74 @@
+---
+import Book from './book.astro';
+import Title from '../title.astro';
+
+type BookProps = {
+  title: string;
+  author: string;
+  link: string;
+  img: string;
+  series: boolean;
+};
+
+const books: BookProps[] = [
+  {
+    title: 'Contact',
+    author: 'Carl Sagan',
+    link: 'www.goodreads.com/book/show/61666.Contact',
+    img: 'contact.jpg',
+    series: false,
+  },
+  {
+    title: 'The Three-Body Problem',
+    author: 'Cixin Liu',
+    link: 'www.goodreads.com/book/show/20518872-the-three-body-problem',
+    img: '3body.jpg',
+    series: true,
+  },
+  {
+    title: 'The Name Of The Wind',
+    author: 'Patrick Rothfuss',
+    link: 'www.goodreads.com/book/show/186074.The_Name_of_the_Wind',
+    img: 'windName.jpg',
+    series: true,
+  },
+  {
+    title: 'The Way Of Kings',
+    author: 'Brandon Sanderson',
+    link: 'www.goodreads.com/book/show/7235533-the-way-of-kings',
+    img: 'wayOfKings.jpg',
+    series: true,
+  },
+  {
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    link: 'www.goodreads.com/book/show/20518872-the-three-body-problem',
+    img: 'braveWorld.jpg',
+    series: false,
+  },
+  {
+    title: 'The Denial of Death',
+    author: 'Ernest Becker',
+    link: 'www.goodreads.com/book/show/2761.The_Denial_of_Death',
+    img: 'denialOfDeath.jpg',
+    series: false,
+  },
+];
+---
+
+<div class='mt-3'>
+  <Title title='My favorite books' />
+  <div class='grid grid-cols-1 md:grid-cols-2'>
+    {
+      books.map((book) => (
+        <Book
+          title={book.title}
+          author={book.author}
+          link={book.link}
+          img={book.img}
+          series={book.series}
+        />
+      ))
+    }
+  </div>
+</div>

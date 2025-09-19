@@ -1,0 +1,25 @@
+---
+type Props = {
+  title: string;
+  author: string;
+  link: string;
+  img: string;
+  series: boolean;
+};
+
+const { title, author, link, img, series } = Astro.props;
+---
+
+<div class='flex m-3 ml-0'>
+  <a class='mr-3 w-[9em]' href={`https://${link}`}>
+    <img
+      class='h-[14em] hover:border-[1px] border-accent'
+      src={`/images/books/${img}`}
+    />
+  </a>
+  <div class='flex-1'>
+    <h1 class='text-accent font-bold'>{title}</h1>
+    <p>by {author}</p>
+    {series && <p>(The whole series)</p>}
+  </div>
+</div>

@@ -11,10 +11,7 @@
       let pkgs = import nixpkgs { inherit system; };
       in {
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            nodejs_22 # or nodejs_20 if you want LTS
-            pnpm
-          ];
+          packages = with pkgs; [ nodejs_20 pnpm ];
 
           shellHook = ''
             echo "🚀 Entered Astro dev shell (Node: $(node -v), pnpm: $(pnpm -v))"

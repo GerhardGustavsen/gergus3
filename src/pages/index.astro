@@ -1,11 +1,29 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/main.astro";
+import Link from "../components/links/web.astro";
+import Music from "../components/music/music.astro";
+import Books from "../components/books/books.astro";
+import Works from "../components/works/works.astro";
+import "./index.css";
+import title from "../assets/title.png";
+import branch from "../assets/branch.png";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="feed">
+    <div class="titleBox">
+      <img class="branch" src={branch.src} alt="Branch img" />
+      <img class="title" src={title.src} alt="Gerhard's Page" />
+    </div>
+
+    <p class="greeting">
+      <span class="hi">Hi👋,</span> and welcome to my corner of the internet! Here
+      you can find my writings, and read about some of my projects. If you want,
+      you may also leave me a note in the guestbook, or take a wander in my garden.
+      If you are looking for some inspiration, you can instead check out the books
+      I have read and the movies I love. I have also tried to collect some of my
+      absolute favorite literature and art in the archive. Looking for other cool
+      websites? Check out my links! Hope you enjoy your stay!
+    </p>
+  </div>
 </Layout>

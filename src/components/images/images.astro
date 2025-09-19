@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import fg from 'fast-glob';
+import { NULL } from 'sass';
+
+const { images, cols } = Astro.props;
+
+let base = import.meta.env.PROD
+  ? 'https://gergus.no/'
+  : 'http://localhost:3000';
+
+const imgs: string[] = [];
+const dirs: string[] = fg.sync('public/' + images, {
+  onlyDirectories: true,
+});
+for (const dir in dirs) {
+  const jpg: string[] = fg.sync(dirs[dir] + '/*.jpg');
+  const png: string[] = fg.sync(dirs[dir] + '/*.png');
+  const web: string[] = fg.sync(dirs[dir] + '/*.webp');
+  imgs.push(...jpg, ...png, ...web);
+}
+
+for (const img in imgs) {
+  imgs[img] = '/' + imgs[img].substr(imgs[img].indexOf('/') + 1);
+}
+const ars: string[][] = [[]];
+for (let i = 1; cols > i; i++) ars.push([]);
+
+while (imgs.length > 0) {
+  for (let i = 0; i < cols; i++) {
+    const img = imgs.pop();
+    if (img) ars[i].push(img);
+  }
+}
+---
+
+<div class='flex'>
+  {
+    ars.map((arr) => (
+      <div class='flex-col mr-3'>
+        {arr.map((img) => (
+          <a href={base + img}>
+            <Image
+              class='mb-3  border-accent hover:border-[1px]'
+              src={img}
+              alt={img}
+              width='3000'
+              height='200'
+            />
+          </a>
+        ))}
+      </div>
+    ))
+  }
+</div>

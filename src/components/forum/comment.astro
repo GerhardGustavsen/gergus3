@@ -1,0 +1,21 @@
+---
+const { text, auth, date, likes } = Astro.props;
+import Input from './input.astro';
+---
+
+<div class='border-accent border-l-2 pl-2 pb-2 mt-5'>
+  <p>
+    {text}
+  </p>
+  <div class='text-right'>
+    <span>-</span>
+    <span>{auth}</span>
+    <span>{date}</span>
+    <span>{likes}</span><span class='text-2xl mr-2'>☆</span>
+    <Input>
+      <span class='text-2xl'>↵</span>
+    </Input>
+  </div>
+
+  <slot />
+</div>

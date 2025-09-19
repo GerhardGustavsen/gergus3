@@ -1,0 +1,42 @@
+---
+type dir = {
+  name: string;
+  url: string;
+};
+
+const path = Astro.url.pathname
+  .split('/')
+  .filter((entry) => entry.trim() !== '');
+const dirs: dir[] = [];
+let base = import.meta.env.PROD ? 'https://gergus.no/' : 'http://localhost:3000/';
+
+path.forEach((dir) => {
+  base += dir + '/';
+  dirs.push({
+    name: dir.replaceAll('%20',' '),
+    url: base,
+  });
+});
+
+const first: dir = {
+  name:'gergus.no',
+  url:'/'
+}
+
+dirs.unshift(first);
+---
+
+
+<div class='md:hidden pt-6 px-6 font-bold text-xl'>
+  {
+    dirs.map((dir) => {
+      return (
+        <!-- prettier-ignore -->
+        <>{dirs[0] != dir && <a>/</a>}<a 
+        class='last-of-type:border-b-[2px] border-accent' 
+        href={dir.url}
+        >{dir.name}</a></>
+      );
+    })
+  }
+</div>

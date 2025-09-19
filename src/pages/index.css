@@ -1,0 +1,66 @@
+.feed {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding-top: 2em;
+    position: relative;
+}
+
+/* Medium screens */
+@media (min-width: 640px) {
+    .feed {
+        width: 800px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1500px) {
+    .feed {
+        width: 1000px;
+    }
+}
+
+.title {
+    margin: auto;
+    text-align: center;
+    font-family: "Fira Sans", sans;
+    font-size: 2.5em;
+}
+
+.titleBox {
+
+    position: relative;
+}
+
+.branch {
+    height: 600px;
+    margin: 1em;
+}
+
+.title {
+    height: 300px;
+    margin: 0px;
+    position: absolute;
+    top: 170px;
+    left: 350px;
+}
+
+.greeting {
+    position: relative;
+    width: 27em;
+    margin-top: -120px;
+    margin-left: 310px;
+}
+
+p {
+    font-size: 1em;
+    padding: 8px;
+    text-align: justify;
+
+    .hi {
+        font-size: 1.5em;
+        font-weight: bold;
+        font-family: 'Times New Roman';
+    }
+
+}

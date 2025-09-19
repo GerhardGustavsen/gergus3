@@ -1,0 +1,20 @@
+---
+import "./main.css";
+import Breadcrumbs from "../components/breadcrumbs/breadcrumbs.astro";
+import Sidebar from "../components/sidebar/sidebar.astro";
+const path = Astro.url.pathname;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="patternDark">
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

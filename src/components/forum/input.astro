@@ -1,0 +1,85 @@
+---
+const { id } = Astro.props;
+
+function makeid(length: number) {
+  let result = '';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
+let id2 = makeid(10);
+if (id) {
+  id2 = id;
+}
+---
+
+<div id={id2 + '-div'} class='inline'>
+  <div class='hover:cursor-pointer w-min float-right' id={id2 + '-open'}>
+    <slot />
+  </div>
+
+  <div id={id2 + '-input'} class='pb-[3em]'>
+    <textarea id={id2 + '-text'} class='w-full h-[5em]'></textarea>
+    <div>
+      <div class='float-left inline'>
+        <span>By:</span>
+        <input maxlength='20' id={id2 + '-auth'} />
+        <span>(optional)</span>
+      </div>
+
+      <button
+        id={id2 + '-post'}
+        class='inline bg-bgLight border-2 rounded py-[0.1em] px-[1.5em] border-bgDark float-right hover:outline-accent hover:outline hover:outline-2'
+        >Post!</button
+      >
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ id2 }}>
+  console.log(getAuth);
+
+  const open = document.getElementById(id2 + '-open');
+  const div = document.getElementById(id2 + '-div');
+  const input = document.getElementById(id2 + '-input');
+  let o = false;
+  let d = false;
+
+  input.style.display = 'none';
+  let isOpen = false;
+
+  function click() {
+    if (o) {
+      //opening modal:
+      open.style.color = '#8000ff';
+      input.style.display = 'block';
+      isOpen = true;
+    } else if (!d) {
+      //closing modal:
+      open.style.color = '#eeeeee';
+      input.style.display = 'none';
+      isOpen = false;
+    }
+
+    d = false;
+    o = false;
+  }
+
+  open.addEventListener('click', () => (o = true));
+  div.addEventListener('click', () => (d = true));
+  document.addEventListener('click', () => click());
+
+  open.addEventListener('mouseover', function () {
+    if (!isOpen) this.style.color = '#8000ff';
+  });
+  open.addEventListener('mouseleave', function () {
+    if (!isOpen) this.style.color = '#eeeeee';
+  });
+</script>

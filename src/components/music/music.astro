@@ -1,0 +1,162 @@
+---
+import Ani from './musicAnimation.astro';
+import Title from '../title.astro';
+---
+
+<div class='mt-3'>
+  <Title title='Songs last listned to' />
+  <div class='flex m-3 ml-0'>
+    <a id='LastUrl' class='mr-3 hover:border-[1px] border-accent'>
+      <img
+        id='SongArt'
+        src='https://lastfm.freetls.fastly.net/i/u/174s/758bd204c8b45e150d03e02ed33e79b6.png'
+      />
+    </a>
+    <div class='relative overflow-hidden'>
+      <h1 id='MusicTitle'>loading...</h1>
+      <a id='SongName' class='text-[#02ebfc] font-bold whitespace-nowrap'
+        >song name</a
+      >
+      <p id='SongFromInvi' class='whitespace-nowrap'>
+        from: <span id='SongFrom' class='text-[#02ebfc]'>album</span>
+      </p>
+      <p class='whitespace-nowrap'>
+        by: <span id='SongBy' class='text-[#02ebfc]'>artist</span>
+      </p>
+      <div id='SongNow' class='absolute bottom-0 hidden'>
+        <Ani />
+      </div>
+    </div>
+  </div>
+  <div
+    id='SongList'
+    class='flex flex-col underline whitespace-nowrap overflow-hidden'
+  >
+  </div>
+</div>
+
+<script>
+  interface LastfmTrack {
+    artist: {
+      mbid: string;
+      '#text': string;
+    };
+    streamable: string;
+    image: {
+      size: string;
+      '#text': string;
+    }[];
+    mbid: string;
+    album: {
+      mbid: string;
+      '#text': string;
+    };
+    name: string;
+    '@attr': {
+      nowplaying: string;
+    };
+    url: string;
+  }
+
+  interface LastfmRecentTracks {
+    recenttracks: {
+      track: LastfmTrack[];
+      '@attr': {
+        user: string;
+        totalPages: string;
+        page: string;
+        perPage: string;
+        total: string;
+      };
+    };
+  }
+
+  const makeUrl = (
+    url: string,
+    params: Record<string, string | number | boolean> = {}
+  ): string => {
+    const newUrl = new URL(url);
+    for (const [key, value] of Object.entries(params)) {
+      newUrl.searchParams.set(key, value.toString());
+    }
+    return newUrl.toString();
+  };
+
+  const getRecentTracks = async (
+    limit: number
+  ): Promise<LastfmRecentTracks> => {
+    const res = await fetch(
+      makeUrl(`https://ws.audioscrobbler.com/2.0/`, {
+        user: 'gegu2902',
+        api_key: 'd5f337dc703f4cf80c713f29542cc2a2',
+        format: 'json',
+        method: 'user.getrecenttracks',
+        limit,
+      })
+    );
+    if (!res.ok)
+      throw new Error(`Status ${res.status} while fetching recent tracks`);
+    return (await res.json()) as LastfmRecentTracks;
+  };
+
+  const updateSong = async () => {
+    const numSongs = 8;
+
+    const lastFm = await getRecentTracks(numSongs);
+    const last = lastFm.recenttracks.track[0];
+
+    const now = last['@attr'] && last['@attr'].nowplaying;
+    const listening = now ? 'Now listening to:' : 'Last listened to:';
+
+    // Last song
+    document.getElementById('MusicTitle')!.innerText = listening;
+    document.getElementById('SongName')!.innerText = last.name;
+    document.getElementById('SongFrom')!.innerText = last.album['#text'];
+    document.getElementById('SongBy')!.innerText = last.artist['#text'];
+    document
+      .getElementById('SongArt')!
+      .setAttribute('src', last.image[2]['#text']);
+    document.getElementById('LastUrl')!.setAttribute('href', last.url);
+
+    if (last.name == last.album['#text']) {
+      document.getElementById('SongFromInvi')!.style.display = 'none';
+    } else {
+      document.getElementById('SongFromInvi')!.style.display = 'block';
+    }
+
+    if (now) {
+      document.getElementById('SongNow')!.style.display = 'block';
+    } else {
+      document.getElementById('SongNow')!.style.display = 'none';
+    }
+
+    // Song list:
+    const list = lastFm.recenttracks.track.splice(1, numSongs);
+
+    document.getElementById('SongList')!.innerHTML = '';
+    for (const i in list) {
+      const listItem = document.createElement('a');
+      const songName = document.createElement('span');
+
+      songName.innerText = list[i].name;
+      songName.style.color = '#02ebfc';
+      listItem.appendChild(songName);
+
+      const spacer = document.createElement('span');
+      spacer.innerText = ' / ';
+      spacer.style.color = 'rgb(80,00,256)';
+
+      const songArtist = document.createElement('span');
+      songArtist.innerText = list[i].artist['#text'];
+      listItem.appendChild(spacer);
+      listItem.appendChild(songArtist);
+
+      listItem.setAttribute('href', list[i].url);
+      document.getElementById('SongList')!.appendChild(listItem);
+    }
+
+    setTimeout(() => updateSong(), 30000);
+  };
+
+  updateSong();
+</script>

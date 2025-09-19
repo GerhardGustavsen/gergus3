@@ -1,0 +1,56 @@
+.blog {
+  font-family: Inter var, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    Noto Color Emoji;
+
+  & > p {
+    text-align: justify;
+    padding-bottom: 1em;
+
+    & > a {
+      color: #02ebfc;
+      text-decoration: underline;
+    }
+
+    & > img {
+      max-height: 28em;
+      padding: 0.8em;
+      padding-top: 0.1em;
+      margin: auto;
+    }
+  }
+
+  & > h2 {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  & > h3 {
+    font-size: large;
+  }
+
+  & > ul {
+    margin-bottom: 1em;
+    padding-left: 2em;
+    & > li {
+      list-style-type: disc;
+      & > a {
+        color: #02ebfc;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & > ol {
+    margin-bottom: 1em;
+    padding-left: 2em;
+    & > li {
+      list-style-type: upper-roman;
+      & > a {
+        color: #02ebfc;
+        text-decoration: underline;
+      }
+    }
+  }
+}

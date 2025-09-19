@@ -1,0 +1,15 @@
+---
+// Your component script here!
+const { name, url, r } = Astro.props;
+let base = 'https://';
+if (r) {
+  base = import.meta.env.PROD ? 'https://gergus.no/' : 'http://localhost:3000/';
+}
+---
+
+<!-- prettier-ignore -->
+<a href={base + url} class="text-lg mb-1 [&:hover>p]:bg-accent [&:hover>p]:text-[#02ebfc]"><p 
+  class="inline text-accent font-bold">[</p><p 
+  class="inline text-[#02ebfc] underline">{name}</p><p 
+  class="inline text-accent font-bold">]</p>
+</a>
