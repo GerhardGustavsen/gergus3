@@ -22,40 +22,94 @@ import stars from "../assets/garden/stars.gif";
 import star from "../assets/garden/star.gif";
 import dp from "../assets/garden/daft_punk.gif";
 import sun from "../assets/garden/sun.gif";
+import skull from "../assets/garden/skull.jpg";
+import panik from "../assets/garden/panik.png";
+import goldenMP3 from "../assets/garden/golden.mp3";
 ---
-
-<img class="web" src={web.src} />
-
-<img class="spider" src={spider.src} />
-<img class="spider2" src={spider2.src} />
-
-<img class="pillar" src={pillar.src} />
-
-<img class="gandalf" src={gandalf.src} />
-
-<img class="n1" src={n1.src} />
-
-<img class="birb" src={birb.src} />
-
-<img class="man" src={man.src} />
-
-<img class="golden" src={golden.src} />
 
 <div class="caveDiv">
   <img class="cave" src={cave.src} />
   <img class="miner" src={miner.src} />
 </div>
 
-<img class="gnome" src={gnome.src} />
+<img class="skull" src={skull.src} />
 
-<div class="reodor-fix"></div>
-<img class="reodor" src={reodor.src} />
+<div class="golden-reodor">
+  <img id="goldenSpinner" class="golden" src={golden.src} />
+  <div class="reodor">
+    <div class="reodor-fix"></div>
+    <img src={reodor.src} />
+  </div>
+  <audio id="goldenMP3" src={goldenMP3} preload="auto" loop></audio>
+</div>
+<script is:inline>
+  const el = document.getElementById("goldenSpinner");
+  const audio = document.getElementById("goldenMP3");
+  let spinning = false;
+  function playGolden() {
+    if (!spinning) {
+      el.style.animationPlayState = "running";
+      audio.play().catch(() => {});
+      spinning = true;
+    } else {
+      el.style.animationPlayState = "paused";
+      audio.pause();
+      spinning = false;
+    }
+  }
+  el.addEventListener("click", playGolden);
+</script>
+
+<div class="welcome">
+  <div class="text">
+    <span>Welcome to the garden! </span>
+
+    <p>
+      Sometimes called a "digital scrapbook," this follows a tradition from the
+      early internet. Here I gather things that feel precious and lost. The page
+      is always a work in progress. A small reflection of myself in the wider
+      zeitgeist. Do have a look around!
+    </p>
+  </div>
+  <btn class="homeBtn" onmouseup="window.location.href='/';"
+    >Welp! Take me home!</btn
+  >
+
+  <img id="kalm" class="man" onclick="panik()" src={man.src} />
+  <img id="panik" class="man panik" src={panik.src} />
+  <img
+    class="btn"
+    onclick="window.location.href='https://geekprank.com/'"
+    src={btn.src}
+  />
+</div>
+<script is:inline>
+  function panik() {
+    console.log("panik");
+    const img = document.getElementById("panik");
+    img.style.visibility = "visible";
+    setTimeout(() => {
+      img.style.visibility = "hidden";
+    }, 3000); // show for 1.5 seconds
+  }
+</script>
+
+<img class="spider" src={spider.src} />
+<img class="spider2" src={spider2.src} />
+
+<img class="pillar" src={pillar.src} />
+
+<!--img class="gandalf" src={gandalf.src} /-->
+
+<img class="n1" src={n1.src} />
+
+<img class="birb" src={birb.src} />
+
+<img class="gnome" src={gnome.src} />
 
 <img class="car" src={car.src} />
 
 <img class="erren" src={erren.src} />
-
-<img class="btn" src={btn.src} />
 
 <img class="star" src={star.src} />
 
@@ -65,8 +119,11 @@ import sun from "../assets/garden/sun.gif";
 
 <img class="sun" src={sun.src} />
 
-<!-- ######################## CSS ######################## -->
+<!-- ######################################################################## CSS ######################################################################## -->
+
 <style>
+  /* --- --- --- --- GENNERAL --- --- --- --- */
+
   html,
   body {
     font-family: sans-serif, "Fira Sans", sans;
@@ -83,9 +140,145 @@ import sun from "../assets/garden/sun.gif";
     }
   }
 
+  /* --- --- --- --- WELCOME --- --- --- --- */
+
+  .welcome {
+    top: 100px;
+    left: 150px;
+
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+
+    font-size: 18px;
+
+    .man {
+      height: 250px;
+    }
+
+    .panik {
+      left: 10px;
+      visibility: hidden;
+      animation: shake 80ms linear infinite;
+      animation-play-state: running;
+    }
+
+    .text {
+      border: 8px groove rgb(13, 255, 223);
+      background-color: #4eff37;
+
+      width: 550px;
+      height: 220px;
+
+      left: 120px;
+      top: 40px;
+
+      span {
+        top: 14px;
+        left: 80px;
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      p {
+        top: 26px;
+        left: 80px;
+
+        margin-right: 1em;
+        text-align: justify;
+      }
+    }
+
+    .homeBtn {
+      width: 200px;
+      padding: 2px 10px;
+
+      position: absolute;
+      top: 227px;
+      left: 447px;
+
+      background-color: rgb(0, 0, 255);
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+
+      border: 3px solid;
+      border-top-color: #cce0ff;
+      border-left-color: #99c2ff;
+      border-right-color: #003366;
+      border-bottom-color: #001a33;
+    }
+
+    .homeBtn:active {
+      border-top-color: #001a33;
+      border-left-color: #003366;
+      border-right-color: #99c2ff;
+      border-bottom-color: #cce0ff;
+    }
+
+    .btn {
+      left: 583px;
+      top: 55px;
+      cursor: pointer;
+    }
+  }
+
+  /* panik */
+  @keyframes shake {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(10deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  /* --- --- --- --- GOLDEN REODOR --- --- --- --- */
+
+  .golden-reodor {
+    left: 830px;
+    top: 90px;
+
+    .golden {
+      height: 800px;
+
+      animation: slowspin 40s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .reodor {
+      top: 350px;
+      left: 580px;
+
+      .reodor-fix {
+        height: 30px;
+        width: 60px;
+        background-color: rgb(194, 194, 194);
+        top: 40px;
+        left: 60px;
+      }
+    }
+  }
+  @keyframes slowspin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* --- --- --- --- CAVE --- --- --- --- */
+
   .caveDiv {
-    top: calc(40px * 20);
-    left: calc(40px * 35);
+    top: calc(40px * 28);
+    left: calc(40px * 9);
 
     .cave {
       height: calc(40px * 8);
@@ -98,29 +291,36 @@ import sun from "../assets/garden/sun.gif";
     }
   }
 
-  .man {
-    height: 250px;
-    top: 100px;
-    left: 200px;
+  /* --- --- --- --- GOOD --- --- --- --- */
+
+  .n1 {
+    top: 462px;
+    left: 320px;
   }
 
-  .gnome {
-    top: 5000px;
-    left: 0px;
+  .birb {
+    transform: scaleX(-1);
+    height: 140px;
+    top: 330px;
+    left: 320px;
   }
 
-  .reodor {
-    top: 350px;
-    left: 1300px;
+  .l {
+    height: 200px;
+    top: 1033px;
+    left: 190px;
+    transform: rotate(180deg);
+    border-radius: 50%;
   }
 
-  .reodor-fix {
-    height: 30px;
-    width: 60px;
-    background-color: rgb(194, 194, 194);
-    top: 400px;
-    left: 1355px;
+  .skull {
+    height: 900px;
+    top: 850px;
+    left: 890px;
+
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.479); /* chunky shadow */
   }
+  /* --- --- --- --- DIV --- --- --- --- */
 
   .hole {
     left: 600px;
@@ -130,34 +330,21 @@ import sun from "../assets/garden/sun.gif";
     transform: rotate(90deg);
   }
 
-  .n1 {
-    top: 442px;
-    left: 240px;
-  }
-
-  .birb {
-    transform: scaleX(-1);
-    height: 120px;
-    top: 330px;
-    left: 370px;
+  .gnome {
+    top: 5000px;
+    left: 0px;
   }
 
   .car {
     top: 1092px;
-    left: 800px;
+    left: 5800px;
     height: 500px;
-  }
-
-  .golden {
-    left: 740px;
-    top: 40px;
-    height: 800px;
   }
 
   .erren {
     height: 234px;
     left: 1700px;
-    top: 694px;
+    top: 1294px;
   }
 
   .gandalf {
@@ -172,64 +359,51 @@ import sun from "../assets/garden/sun.gif";
     height: 210px;
   }
 
-  .btn {
-    top: 133px;
-    left: 423px;
-  }
-
-  .l {
-    height: 200px;
-    top: 1033px;
-    left: 190px;
-    transform: rotate(180deg);
-    border-radius: 50%;
-  }
-
   .pillar {
     top: 796px;
     left: 1010px;
-    height: 320px;
+    height: 5320px;
   }
 
   .web {
     height: 500px;
-    top: 450px;
+    top: 5450px;
     left: 700px;
   }
 
   .spider {
     height: 80px;
-    top: 670px;
+    top: 5670px;
     left: 770px;
   }
 
   .spider2 {
     height: 80px;
-    top: 790px;
+    top: 5790px;
     left: 950px;
   }
 
   .stars {
     height: 380px;
-    top: 126px;
+    top: 5126px;
     left: 240px;
   }
 
   .star {
     height: 120px;
-    top: 546px;
+    top: 5546px;
     left: 160px;
   }
 
   .dp {
     height: 400px;
-    top: 1226px;
+    top: 51226px;
     left: 290px;
   }
 
   .sun {
     height: 200px;
-    top: 910px;
+    top: 5910px;
     left: 1180px;
   }
 </style>
