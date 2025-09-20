@@ -1,0 +1,235 @@
+---
+import cave from "../assets/garden/cave.gif";
+import miner from "../assets/garden/mc-pikachu.gif";
+import man from "../assets/garden/meme_man.png";
+import gnome from "../assets/garden/gnome.webp";
+import reodor from "../assets/garden/reodor.png";
+import hole from "../assets/garden/hole.jpg";
+import n1 from "../assets/garden/N1.jpg";
+import birb from "../assets/garden/birb.gif";
+import golden from "../assets/garden/golden.png";
+import car from "../assets/garden/tempo.jpg";
+import erren from "../assets/garden/AOT_Erren.png";
+import gandalf from "../assets/garden/gandalf.gif";
+import bear from "../assets/garden/bear.gif";
+import btn from "../assets/garden/explorer_btn.gif";
+import l from "../assets/garden/L.gif";
+import pillar from "../assets/garden/pillar.png";
+import web from "../assets/garden/web.png";
+import spider from "../assets/garden/spider.gif";
+import spider2 from "../assets/garden/spider2.gif";
+import stars from "../assets/garden/stars.gif";
+import star from "../assets/garden/star.gif";
+import dp from "../assets/garden/daft_punk.gif";
+import sun from "../assets/garden/sun.gif";
+---
+
+<img class="web" src={web.src} />
+
+<img class="spider" src={spider.src} />
+<img class="spider2" src={spider2.src} />
+
+<img class="pillar" src={pillar.src} />
+
+<img class="gandalf" src={gandalf.src} />
+
+<img class="n1" src={n1.src} />
+
+<img class="birb" src={birb.src} />
+
+<img class="man" src={man.src} />
+
+<img class="golden" src={golden.src} />
+
+<div class="caveDiv">
+  <img class="cave" src={cave.src} />
+  <img class="miner" src={miner.src} />
+</div>
+
+<img class="gnome" src={gnome.src} />
+
+<div class="reodor-fix"></div>
+<img class="reodor" src={reodor.src} />
+
+<img class="car" src={car.src} />
+
+<img class="erren" src={erren.src} />
+
+<img class="btn" src={btn.src} />
+
+<img class="star" src={star.src} />
+
+<img class="dp" src={dp.src} />
+
+<img class="l" src={l.src} />
+
+<img class="sun" src={sun.src} />
+
+<!-- ######################## CSS ######################## -->
+<style>
+  html,
+  body {
+    font-family: sans-serif, "Fira Sans", sans;
+    margin: 0px;
+    padding: 0px;
+    font-size: 20px;
+    background-image: url(/images/diamond.png);
+    background-repeat: repeat; /* default, tiles both directions */
+    background-color: rgb(0, 0, 0); /* fallback color behind image */
+    background-size: 40px;
+
+    * {
+      position: absolute;
+    }
+  }
+
+  .caveDiv {
+    top: calc(40px * 20);
+    left: calc(40px * 35);
+
+    .cave {
+      height: calc(40px * 8);
+    }
+
+    .miner {
+      height: 40px;
+      top: calc(40px * 5);
+      left: calc(40px * 1);
+    }
+  }
+
+  .man {
+    height: 250px;
+    top: 100px;
+    left: 200px;
+  }
+
+  .gnome {
+    top: 5000px;
+    left: 0px;
+  }
+
+  .reodor {
+    top: 350px;
+    left: 1300px;
+  }
+
+  .reodor-fix {
+    height: 30px;
+    width: 60px;
+    background-color: rgb(194, 194, 194);
+    top: 400px;
+    left: 1355px;
+  }
+
+  .hole {
+    left: 600px;
+    top: 700px;
+    height: 300px;
+    border-radius: 50%;
+    transform: rotate(90deg);
+  }
+
+  .n1 {
+    top: 442px;
+    left: 240px;
+  }
+
+  .birb {
+    transform: scaleX(-1);
+    height: 120px;
+    top: 330px;
+    left: 370px;
+  }
+
+  .car {
+    top: 1092px;
+    left: 800px;
+    height: 500px;
+  }
+
+  .golden {
+    left: 740px;
+    top: 40px;
+    height: 800px;
+  }
+
+  .erren {
+    height: 234px;
+    left: 1700px;
+    top: 694px;
+  }
+
+  .gandalf {
+    height: 150px;
+    top: 303px;
+    left: 463px;
+  }
+
+  .bear {
+    top: 1095px;
+    left: 515px;
+    height: 210px;
+  }
+
+  .btn {
+    top: 133px;
+    left: 423px;
+  }
+
+  .l {
+    height: 200px;
+    top: 1033px;
+    left: 190px;
+    transform: rotate(180deg);
+    border-radius: 50%;
+  }
+
+  .pillar {
+    top: 796px;
+    left: 1010px;
+    height: 320px;
+  }
+
+  .web {
+    height: 500px;
+    top: 450px;
+    left: 700px;
+  }
+
+  .spider {
+    height: 80px;
+    top: 670px;
+    left: 770px;
+  }
+
+  .spider2 {
+    height: 80px;
+    top: 790px;
+    left: 950px;
+  }
+
+  .stars {
+    height: 380px;
+    top: 126px;
+    left: 240px;
+  }
+
+  .star {
+    height: 120px;
+    top: 546px;
+    left: 160px;
+  }
+
+  .dp {
+    height: 400px;
+    top: 1226px;
+    left: 290px;
+  }
+
+  .sun {
+    height: 200px;
+    top: 910px;
+    left: 1180px;
+  }
+</style>

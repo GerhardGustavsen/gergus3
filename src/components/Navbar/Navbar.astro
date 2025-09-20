@@ -1,0 +1,73 @@
+---
+
+---
+
+<nav class="navbar">
+  <ul>
+    <li><a href="/">home</a></li>
+
+    <li>
+      by me
+      <ul>
+        <li><a href="/projects">projects</a></li>
+        <li><a href="/writings">writings</a></li>
+        <li><a href="/scrapbook">scrapbook</a></li>
+      </ul>
+    </li>
+
+    <li>
+      for you
+      <ul>
+        <li><a href="/garden">garden</a></li>
+        <li><a href="/guestbook">guestbook</a></li>
+      </ul>
+    </li>
+
+    <li>
+      by other
+      <ul>
+        <li><a href="/books">books</a></li>
+        <li><a href="/movies">movies</a></li>
+        <li><a href="/archive">archive</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/scrapbook">about</a></li>
+    <li><a href="/links">my links</a></li>
+  </ul>
+</nav>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+  .navbar {
+    font-family: sans-serif;
+    max-width: 200px;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+  }
+
+  .navbar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .navbar li {
+    margin: 0.3em 0;
+  }
+
+  .navbar li > ul {
+    margin-left: 1em;
+  }
+
+  .navbar a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+</style>
