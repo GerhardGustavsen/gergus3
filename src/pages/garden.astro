@@ -2,38 +2,50 @@
 import cave from "../assets/garden/cave.gif";
 import miner from "../assets/garden/mc-pikachu.gif";
 import man from "../assets/garden/meme_man.png";
-import gnome from "../assets/garden/gnome.webp";
 import reodor from "../assets/garden/reodor.png";
-import hole from "../assets/garden/hole.jpg";
 import n1 from "../assets/garden/N1.jpg";
 import birb from "../assets/garden/birb.gif";
 import golden from "../assets/garden/golden.png";
-import car from "../assets/garden/tempo.jpg";
-import erren from "../assets/garden/AOT_Erren.png";
-import gandalf from "../assets/garden/gandalf.gif";
-import bear from "../assets/garden/bear.gif";
 import btn from "../assets/garden/explorer_btn.gif";
-import l from "../assets/garden/L.gif";
-import pillar from "../assets/garden/pillar.png";
-import web from "../assets/garden/web.png";
 import spider from "../assets/garden/spider.gif";
-import spider2 from "../assets/garden/spider2.gif";
-import stars from "../assets/garden/stars.gif";
-import star from "../assets/garden/star.gif";
 import dp from "../assets/garden/daft_punk.gif";
-import sun from "../assets/garden/sun.gif";
 import skull from "../assets/garden/skull.jpg";
 import panik from "../assets/garden/panik.png";
 import goldenMP3 from "../assets/garden/golden.mp3";
+import synec from "../assets/garden/synec.jpg";
+import n1MP4 from "../assets/garden/n1.mp4";
+import star2 from "../assets/garden/star2.gif";
+import wtf from "../assets/garden/wtf.mp4";
+import buran from "../assets/garden/buran.jpg";
+import tec from "../assets/garden/technologic.gif";
+import car from "../assets/garden/tempo.jpg";
+import corri from "../assets/garden/corri.png";
+import nes from "../assets/garden/nes.jpg";
+import rest from "../assets/garden/rest.jpg";
+import quest from "../assets/garden/quest.gif";
+import mine from "../assets/garden/mine.png";
+import earth from "../assets/garden/earthrise.jpg";
+import border from "../assets/garden/border.gif";
+import dug from "../assets/garden/dug.gif";
+import linux from "../assets/garden/linux.gif";
+import nixos from "../assets/garden/nixos.gif";
+import per from "../assets/garden/peer.jpg";
+import trol from "../assets/garden/trol.jpg";
+import door from "../assets/garden/mc-villager.gif";
+import penguin from "../assets/garden/penguin.gif";
+import restMP3 from "../assets/garden/rest.mp3";
 ---
 
 <div class="caveDiv">
   <img class="cave" src={cave.src} />
   <img class="miner" src={miner.src} />
+  <img class="dug" src={dug.src} />
+  <img class="spider" src={spider.src} />
 </div>
 
-<img class="skull" src={skull.src} />
+<img class="mine" src={mine.src} />
 
+<img class="skull" src={skull.src} />
 <div class="golden-reodor">
   <img id="goldenSpinner" class="golden" src={golden.src} />
   <div class="reodor">
@@ -65,10 +77,10 @@ import goldenMP3 from "../assets/garden/golden.mp3";
     <span>Welcome to the garden! </span>
 
     <p>
-      Sometimes called a "digital scrapbook," this follows a tradition from the
-      early internet. Here I gather things that feel precious and lost. The page
-      is always a work in progress. A small reflection of myself in the wider
-      zeitgeist. Do have a look around!
+      Sometimes called a "digital scrapbook," this follows a tradition of the
+      early internet. Here I gather things that feel precious and lost. It's a
+      reflection of myself in the greater zeitgeist.This page also contains a
+      lot of secrets, so do click around! Hope you enjoy your wander.
     </p>
   </div>
   <btn class="homeBtn" onmouseup="window.location.href='/';"
@@ -77,11 +89,10 @@ import goldenMP3 from "../assets/garden/golden.mp3";
 
   <img id="kalm" class="man" onclick="panik()" src={man.src} />
   <img id="panik" class="man panik" src={panik.src} />
-  <img
-    class="btn"
-    onclick="window.location.href='https://geekprank.com/'"
-    src={btn.src}
-  />
+
+  <a href="https://geekprank.com/" target="_blank" rel="noopener noreferrer">
+    <img class="btn" src={btn.src} /></a
+  >
 </div>
 <script is:inline>
   function panik() {
@@ -90,34 +101,135 @@ import goldenMP3 from "../assets/garden/golden.mp3";
     img.style.visibility = "visible";
     setTimeout(() => {
       img.style.visibility = "hidden";
-    }, 3000); // show for 1.5 seconds
+    }, 3000);
   }
 </script>
 
-<img class="spider" src={spider.src} />
-<img class="spider2" src={spider2.src} />
+<img class="synec" src={synec.src} />
 
-<img class="pillar" src={pillar.src} />
+<div class="n1">
+  <img
+    class="n1-photo"
+    src={n1.src}
+    onclick="let v=document.querySelector('.n1-mp4'); 
+           if(v.style.display==='none'){v.style.display='block';setTimeout(()=>v.classList.add('fadein'),100);} 
+           else {v.classList.remove('fadein');setTimeout(()=>v.style.display='none',300);}"
+  />
 
-<!--img class="gandalf" src={gandalf.src} /-->
+  <video class="n1-mp4" src={n1MP4} style="display:none;" controls playsinline
+  ></video>
+</div>
 
-<img class="n1" src={n1.src} />
+<img class="star2" src={star2.src} />
 
-<img class="birb" src={birb.src} />
-
-<img class="gnome" src={gnome.src} />
-
-<img class="car" src={car.src} />
-
-<img class="erren" src={erren.src} />
-
-<img class="star" src={star.src} />
+<a
+  href="https://www.youtube.com/watch?v=cC1CqyCN9Q0&list=PL1gANTl5seohe2g2cTFpdrhefRbgH2yQP&index=6"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="cursor:default"
+>
+  <img class="linux" src={linux.src} />
+</a>
 
 <img class="dp" src={dp.src} />
 
-<img class="l" src={l.src} />
+<video
+  class="wtf"
+  src={wtf}
+  playsinline
+  onclick="this.currentTime=0; this.play();"
+  onended="this.currentTime=0; this.pause();"></video>
 
-<img class="sun" src={sun.src} />
+<img class="buran" src={buran.src} />
+
+<a
+  href="https://www.youtube.com/watch?v=D8K90hX4PrE"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="cursor:default"
+>
+  <img class="tec" src={tec.src} /></a
+>
+<img class="car" src={car.src} />
+<img class="nes" src={nes.src} />
+
+<div class="rest">
+  <img id="rest-img" class="rest-img" src={rest.src} />
+  <audio id="restMP3" src={restMP3} preload="auto" loop></audio>
+  <a
+    id="rest-link"
+    href="https://www.youtube.com/watch?v=XhKdg49h4Cw&list=OLAK5uy_n0pSySv7qU48ZEeXQLrNttSQdYPz_iaQ0"
+    target="_blank"
+    rel="noopener noreferrer">633397</a
+  >
+</div>
+<script is:inline>
+  const img = document.getElementById("rest-img");
+  const link = document.getElementById("rest-link");
+  const audio2 = document.getElementById("restMP3");
+  let playing = false;
+  function playGolden() {
+    if (!playing) {
+      audio2.currentTime = 0;
+      audio2.play().catch(() => {});
+      link.style.display = "block";
+      playing = true;
+    } else {
+      audio2.pause();
+      playing = false;
+    }
+  }
+  img.addEventListener("click", playGolden);
+</script>
+
+<div class="earth-border">
+  <img class="border" src={border.src} />
+  <img class="earth" src={earth.src} />
+</div>
+
+<img class="corri" src={corri.src} />
+<img class="birb" src={birb.src} />
+
+<a
+  href="https://www.youtube.com/watch?v=bTS9XaoQ6mg"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="cursor:default"
+>
+  <img class="quest" src={quest.src} />
+</a>
+
+<div class="perTrol">
+  <img
+    class="per"
+    src={per.src}
+    onclick="document.querySelector('.trol').style.display = 'block';"
+  />
+  <img class="trol" src={trol.src} />
+</div>
+
+<a
+  href="https://nixos.org/"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="cursor:default"
+>
+  <img class="nixos" src={nixos.src} />
+</a>
+
+<a
+  href="https://play.cpjourney.net/"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="cursor:default"
+>
+  <img class="penguin" src={penguin.src} /></a
+>
+
+<div class="home">
+  <btn class="homeBtn" onmouseup="window.location.href='/';">Nach Hause!</btn>
+  <img class="door" src={door.src} />
+</div>
 
 <!-- ######################################################################## CSS ######################################################################## -->
 
@@ -126,10 +238,10 @@ import goldenMP3 from "../assets/garden/golden.mp3";
 
   html,
   body {
-    font-family: sans-serif, "Fira Sans", sans;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     margin: 0px;
     padding: 0px;
-    font-size: 20px;
+    font-size: 18px;
     background-image: url(/images/diamond.png);
     background-repeat: repeat; /* default, tiles both directions */
     background-color: rgb(0, 0, 0); /* fallback color behind image */
@@ -145,10 +257,6 @@ import goldenMP3 from "../assets/garden/golden.mp3";
   .welcome {
     top: 100px;
     left: 150px;
-
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-
-    font-size: 18px;
 
     .man {
       height: 250px;
@@ -191,26 +299,8 @@ import goldenMP3 from "../assets/garden/golden.mp3";
       width: 200px;
       padding: 2px 10px;
 
-      position: absolute;
       top: 227px;
       left: 447px;
-
-      background-color: rgb(0, 0, 255);
-      color: rgb(255, 255, 255);
-      cursor: pointer;
-
-      border: 3px solid;
-      border-top-color: #cce0ff;
-      border-left-color: #99c2ff;
-      border-right-color: #003366;
-      border-bottom-color: #001a33;
-    }
-
-    .homeBtn:active {
-      border-top-color: #001a33;
-      border-left-color: #003366;
-      border-right-color: #99c2ff;
-      border-bottom-color: #cce0ff;
     }
 
     .btn {
@@ -220,6 +310,26 @@ import goldenMP3 from "../assets/garden/golden.mp3";
     }
   }
 
+  .homeBtn {
+    text-align: center;
+
+    background-color: rgb(0, 0, 255);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+
+    border: 3px solid;
+    border-top-color: #cce0ff;
+    border-left-color: #99c2ff;
+    border-right-color: #003366;
+    border-bottom-color: #001a33;
+  }
+
+  .homeBtn:active {
+    border-top-color: #001a33;
+    border-left-color: #003366;
+    border-right-color: #99c2ff;
+    border-bottom-color: #cce0ff;
+  }
   /* panik */
   @keyframes shake {
     0% {
@@ -277,8 +387,8 @@ import goldenMP3 from "../assets/garden/golden.mp3";
   /* --- --- --- --- CAVE --- --- --- --- */
 
   .caveDiv {
-    top: calc(40px * 28);
-    left: calc(40px * 9);
+    top: calc(40px * 43);
+    left: calc(40px * 36);
 
     .cave {
       height: calc(40px * 8);
@@ -289,14 +399,160 @@ import goldenMP3 from "../assets/garden/golden.mp3";
       top: calc(40px * 5);
       left: calc(40px * 1);
     }
+
+    .spider {
+      height: 80px;
+      top: 242px;
+      left: 200px;
+    }
+
+    .dug {
+      height: 40px;
+      top: 222px;
+      left: 155px;
+    }
   }
 
-  /* --- --- --- --- GOOD --- --- --- --- */
+  /* --- --- --- --- N1 --- --- --- --- */
 
   .n1 {
     top: 462px;
     left: 320px;
+
+    .n1-mp4 {
+      width: 500px;
+      top: 60px;
+      left: -90px;
+      border: 10px double #62008f;
+      opacity: 0;
+      transform: scale(0.3) rotate(-90deg);
+      transition: all 0.5s ease-out;
+    }
+
+    .n1-mp4.fadein {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
   }
+
+  /* --- --- --- --- MINE --- --- --- --- */
+
+  .mine {
+    top: calc(40px * 58);
+    left: calc(40px * 1);
+
+    height: calc(40px * 12);
+  }
+
+  /* --- --- --- --- EARTH RISE --- --- --- --- */
+
+  .earth-border {
+    top: 2650px;
+    left: 300px;
+
+    .earth {
+      height: 400px;
+      top: 16px;
+      left: 14px;
+      transform: rotate(90deg);
+    }
+
+    .border {
+      height: 430px;
+    }
+  }
+
+  /* --- --- --- --- PER TROL --- --- --- --- */
+
+  .perTrol {
+    top: 2823px;
+    left: 740px;
+
+    .per {
+      height: 400px;
+    }
+
+    .trol {
+      height: 400px;
+      display: none;
+      border: 4px solid black;
+    }
+  }
+
+  /* --- --- --- --- WTF --- --- --- --- */
+
+  .wtf {
+    top: 2820px;
+    left: 1065px;
+    height: 250px;
+  }
+
+  /* --- --- --- --- GOOD --- --- --- --- */
+
+  .skull {
+    height: 900px;
+    top: 850px;
+    left: 890px;
+
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.479);
+  }
+
+  .hmc {
+    height: 500px;
+    top: 5835px;
+    left: 276px;
+  }
+
+  .tec {
+    height: 260px;
+    top: 1125px;
+    left: 520px;
+    border: 6px ridge #a3a3a3;
+  }
+
+  .synec {
+    height: 600px;
+    top: 1148px;
+    left: 100px;
+  }
+
+  .rest {
+    height: 345px;
+    top: 1418px;
+    left: 518px;
+
+    .rest-img {
+      height: 345px;
+    }
+
+    a {
+      display: none;
+      background-color: rgb(133, 0, 173);
+      color: rgb(0, 0, 0);
+
+      font-size: 1.8em;
+
+      bottom: 20px;
+      left: 160px;
+
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+  }
+
+  .nes {
+    height: 500px;
+    top: 1785px;
+    left: 275px;
+  }
+
+  .dp {
+    height: 250px;
+    top: 2029px;
+    left: 1250px;
+  }
+
+  /* --- --- --- --- NIPS --- --- --- --- */
 
   .birb {
     transform: scaleX(-1);
@@ -307,103 +563,86 @@ import goldenMP3 from "../assets/garden/golden.mp3";
 
   .l {
     height: 200px;
-    top: 1033px;
-    left: 190px;
+    top: 2320px;
+    left: 160px;
     transform: rotate(180deg);
     border-radius: 50%;
   }
 
-  .skull {
-    height: 900px;
-    top: 850px;
-    left: 890px;
-
-    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.479); /* chunky shadow */
+  .corri {
+    height: 200px;
+    top: 1013px;
+    left: 785px;
   }
-  /* --- --- --- --- DIV --- --- --- --- */
 
-  .hole {
-    left: 600px;
+  .star2 {
+    height: 200px;
     top: 700px;
-    height: 300px;
-    border-radius: 50%;
-    transform: rotate(90deg);
+    left: 790px;
   }
 
-  .gnome {
-    top: 5000px;
-    left: 0px;
+  .quest {
+    height: 130px;
+    top: 1824px;
+    left: 1290px;
+  }
+
+  .eyes {
+    height: 500px;
+    top: 2148px;
+    left: 590px;
+  }
+
+  .shooting {
+    height: 500px;
+    top: 1048px;
+    left: 390px;
+  }
+
+  .buran {
+    height: 700px;
+    top: 3310px;
+    left: 675px;
+
+    border: 12px double #000000;
+    border-radius: 50%;
   }
 
   .car {
-    top: 1092px;
-    left: 5800px;
     height: 500px;
+    top: 2310px;
+    left: 615px;
   }
 
-  .erren {
-    height: 234px;
-    left: 1700px;
-    top: 1294px;
+  .home {
+    top: 4000px;
+    right: 200px;
+    height: 170px;
+    .door {
+      height: 150px;
+    }
+
+    .homeBtn {
+      width: 120px;
+
+      top: -50px;
+      left: 10px;
+    }
   }
 
-  .gandalf {
-    height: 150px;
-    top: 303px;
-    left: 463px;
+  .linux {
+    top: 1275px;
+    left: 1625px;
   }
 
-  .bear {
-    top: 1095px;
-    left: 515px;
-    height: 210px;
+  .nixos {
+    top: 1735px;
+    left: 215px;
   }
 
-  .pillar {
-    top: 796px;
-    left: 1010px;
-    height: 5320px;
-  }
-
-  .web {
-    height: 500px;
-    top: 5450px;
-    left: 700px;
-  }
-
-  .spider {
-    height: 80px;
-    top: 5670px;
-    left: 770px;
-  }
-
-  .spider2 {
-    height: 80px;
-    top: 5790px;
-    left: 950px;
-  }
-
-  .stars {
-    height: 380px;
-    top: 5126px;
-    left: 240px;
-  }
-
-  .star {
-    height: 120px;
-    top: 5546px;
-    left: 160px;
-  }
-
-  .dp {
-    height: 400px;
-    top: 51226px;
-    left: 290px;
-  }
-
-  .sun {
+  .penguin {
     height: 200px;
-    top: 5910px;
-    left: 1180px;
+    top: 2385px;
+    left: 160px;
   }
 </style>
