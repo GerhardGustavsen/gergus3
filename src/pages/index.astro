@@ -1,80 +1,51 @@
 ---
 import Layout from "../layouts/main.astro";
-import Link from "../components/links/web.astro";
-import Music from "../components/music/music.astro";
-import Books from "../components/books/books.astro";
-import Works from "../components/works/works.astro";
 import title from "../assets/title.png";
 import branch from "../assets/branch.png";
-import Navbar from "../components/Navbar/Navbar.astro";
 ---
 
 <Layout>
-  <Navbar />
-
-  <div class="feed">
-    <div class="backdrop"></div>
-    <div class="titleBox">
-      <img class="branch" src={branch.src} alt="Branch img" />
-      <img class="title" src={title.src} alt="Gerhard's Page" />
-    </div>
-
-    <p class="greeting">
-      <span class="hi">Hi👋,</span> and welcome to my corner of the internet! Here
-      you can find my writings, and read about some of my projects. You may also
-      leave me a note in the guestbook, or take a wander in the garden. If you are
-      looking for some inspiration, you can check out the books I have read and the
-      movies I love. I have also tried to collect some of my absolute favorite literature
-      and art in the archive. Looking for other cool websites? Check out my links!
-      Hope you enjoy your stay!
-    </p>
+  <div class="backdrop"></div>
+  <div class="titleBox">
+    <img class="branch" src={branch.src} alt="Branch img" />
+    <img class="title" src={title.src} alt="Gerhard's Page" />
   </div>
+
+  <p class="greeting">
+    <span class="hi">Hi👋,</span> and welcome to my corner of the internet! Here
+    you can find my writings, and read about some of my projects. You may also leave
+    me a note in the guestbook, or take a wander in the garden. If you are looking
+    for some inspiration, you can check out the books I have read and the movies
+    I love. I have also tried to collect some of my absolute favorite literature
+    and art in the archive. Looking for other cool websites? Check out my links!
+    Hope you enjoy your stay!
+  </p>
 </Layout>
 
 <!-- ######################## CSS ######################## -->
 
 <style>
-  .feed {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    padding-top: 2em;
-    position: relative;
-    width: 900px;
-  }
-
-  .title {
-    margin: auto;
-    text-align: center;
-    font-family: "Fira Sans", sans;
-    font-size: 2.5em;
-  }
-
   .titleBox {
     position: relative;
-  }
 
-  .branch {
-    height: 600px;
-    margin: 1em;
-  }
+    .branch {
+      height: 600px;
+    }
 
-  .title {
-    height: 300px;
-    margin: 0px;
-    position: absolute;
-    top: 170px;
-    left: 350px;
+    .title {
+      height: 300px;
+      position: absolute;
+      top: 160px;
+      left: 340px;
+    }
   }
 
   .greeting {
     position: relative;
     width: 27em;
-    margin-top: -120px;
-    margin-left: 310px;
-  }
+    margin-top: -140px;
+    margin-left: 290px;
 
-  p {
     font-size: 1em;
     padding: 8px;
     text-align: justify;
@@ -88,10 +59,10 @@ import Navbar from "../components/Navbar/Navbar.astro";
 
   .backdrop {
     background-color: #e6f0f1;
-    width: 595px;
+    width: 598px;
     height: 700px;
     position: absolute;
-    top: 180px;
-    left: 130px;
+    top: 170px;
+    left: 120px;
   }
 </style>

@@ -1,8 +1,5 @@
 ---
-import "./main.css";
-import Breadcrumbs from "../components/breadcrumbs/breadcrumbs.astro";
-import Sidebar from "../components/sidebar/sidebar.astro";
-const path = Astro.url.pathname;
+import Navbar from "../components/Navbar/Navbar.astro";
 ---
 
 <html lang="en">
@@ -14,7 +11,34 @@ const path = Astro.url.pathname;
   </head>
   <body class="patternDark">
     <main>
-      <slot />
+      <Navbar />
+      <div class="feed">
+        <slot />
+      </div>
     </main>
   </body>
 </html>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+  html,
+  body {
+    font-family: sans-serif, "Fira Sans", sans;
+    margin: 0px;
+    padding: 0px;
+    background-color: #faf9f6;
+    font-size: 20px;
+    color: rgb(34, 34, 34);
+  }
+
+  .feed {
+    padding-top: 4em;
+    padding-bottom: 4em;
+    margin: auto;
+
+    position: relative;
+    height: 100%;
+    width: 900px;
+  }
+</style>
