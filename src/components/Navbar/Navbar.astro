@@ -2,79 +2,112 @@
 const path = Astro.url.pathname;
 ---
 
-<nav class="navbar">
-  <div class="heightbox">
-    <ul>
-      <li><a href="/" class={path === "/" ? "active" : ""}>home</a></li>
+<div>
+  <nav id="navbar" class="navbar">
+    <div class="heightbox">
+      <ul>
+        <li><a href="/" class={path === "/" ? "active" : ""}>home</a></li>
 
-      <li>
-        by me
-        <ul>
-          <li>
-            <a href="/projects" class={path === "/projects" ? "active" : ""}
-              >projects</a
-            >
-          </li>
-          <li>
-            <a href="/writings" class={path === "/writings" ? "active" : ""}
-              >writings</a
-            >
-          </li>
-          <li>
-            <a href="/scrapbook" class={path === "/scrapbook" ? "active" : ""}
-              >photos</a
-            >
-          </li>
-        </ul>
-      </li>
+        <li>
+          by me
+          <ul>
+            <li>
+              <a href="/projects" class={path === "/projects" ? "active" : ""}
+                >projects</a
+              >
+            </li>
+            <li>
+              <a href="/writings" class={path === "/writings" ? "active" : ""}
+                >writings</a
+              >
+            </li>
+            <li>
+              <a href="/scrapbook" class={path === "/scrapbook" ? "active" : ""}
+                >photos</a
+              >
+            </li>
+          </ul>
+        </li>
 
-      <li>
-        for you
-        <ul>
-          <li>
-            <a href="/garden" class={path === "/garden" ? "active" : ""}
-              >garden</a
-            >
-          </li>
-          <li>
-            <a href="/guestbook" class={path === "/guestbook" ? "active" : ""}
-              >guestbook</a
-            >
-          </li>
-          <li>
-            <a href="/scrapbook" class={path === "/scrapbook" ? "active" : ""}
-              >about</a
-            >
-          </li>
-        </ul>
-      </li>
+        <li>
+          for you
+          <ul>
+            <li>
+              <a href="/garden" class={path === "/garden" ? "active" : ""}
+                >garden</a
+              >
+            </li>
+            <li>
+              <a href="/guestbook" class={path === "/guestbook" ? "active" : ""}
+                >guestbook</a
+              >
+            </li>
+            <li>
+              <a href="/scrapbook" class={path === "/scrapbook" ? "active" : ""}
+                >about</a
+              >
+            </li>
+          </ul>
+        </li>
 
-      <li>
-        by others
-        <ul>
-          <li>
-            <a href="/books" class={path === "/books" ? "active" : ""}>books</a>
-          </li>
-          <li>
-            <a href="/movies" class={path === "/movies" ? "active" : ""}
-              >movies</a
-            >
-          </li>
-          <li>
-            <a href="/archive" class={path === "/archive" ? "active" : ""}
-              >archive</a
-            >
-          </li>
-        </ul>
-      </li>
+        <li>
+          for everyone
+          <ul>
+            <li>
+              <a href="/books" class={path === "/books" ? "active" : ""}
+                >books</a
+              >
+            </li>
+            <li>
+              <a href="/movies" class={path === "/movies" ? "active" : ""}
+                >movies</a
+              >
+            </li>
+            <li>
+              <a href="/archive" class={path === "/archive" ? "active" : ""}
+                >archive</a
+              >
+            </li>
+          </ul>
+        </li>
 
-      <li>
-        <a href="/links" class={path === "/links" ? "active" : ""}>my links</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+        <li>
+          <a href="/links" class={path === "/links" ? "active" : ""}>my links</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
 
+  <btn class="burger">
+    <p>~</p>
+    <p>~</p>
+    <p>~</p>
+  </btn>
+</div>
+
+<script is:inline>
+  let expanded = false;
+
+  const nav = document.getElementById("navbar");
+  const burger = document.querySelector(".burger");
+  burger.addEventListener("click", () => {
+    if (expanded === true) {
+      nav.classList.toggle("animate");
+      setTimeout(() => {
+        nav.classList.toggle("expanded");
+      }, 200);
+      expanded = false;
+    } else {
+      nav.classList.toggle("expanded");
+      setTimeout(() => {
+        nav.classList.toggle("animate");
+      }, 0);
+      expanded = true;
+    }
+    burger.classList.toggle("clicked");
+  });
+</script>
 <!-- ######################## CSS ######################## -->
 
 <style>
@@ -84,11 +117,8 @@ const path = Astro.url.pathname;
     height: 100%;
     display: flex;
     align-items: center;
-    padding-left: 7em;
-    z-index: 100;
-    background-color: #faf9f6;
-
-    width: 7em;
+    padding-left: 6em;
+    transition: opacity 0.2s ease;
 
     ul {
       list-style: none;
@@ -117,6 +147,62 @@ const path = Astro.url.pathname;
 
     .active {
       text-decoration: underline;
+    }
+  }
+
+  .burger {
+    font-size: 3em;
+    width: 1em;
+    height: 1em;
+    position: fixed;
+    cursor: pointer;
+    color: green;
+    p {
+      margin: -0.33em 0em -0.99em 0.07em;
+
+      user-select: none;
+    }
+    display: none;
+    z-index: 100;
+
+    transition: color 0.3s ease;
+  }
+  .burger:hover {
+    color: blueviolet;
+  }
+
+  @media (max-width: 1100px) {
+    .navbar {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .burger {
+      display: block;
+    }
+
+    .expanded {
+      visibility: visible;
+      background-color: #faf9f6;
+
+      z-index: 100;
+      width: 100%;
+      padding-left: 0;
+      .heightbox {
+        margin: auto;
+      }
+    }
+
+    .animate {
+      opacity: 1;
+    }
+
+    .clicked {
+      color: blueviolet;
+    }
+
+    .clicked:hover {
+      color: green;
     }
   }
 </style>
