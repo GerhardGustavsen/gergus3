@@ -1,7 +1,9 @@
 ---
 layout: /src/layouts/article.astro
-title: Removable Arch USB
+title: Removable Arch USB 2 really long fucking title
 date: 2023-08-17
+tags:
+  - two
 ---
 
 

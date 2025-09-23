@@ -1,25 +1,24 @@
 ---
-import Layout from "./main.astro";
+import Layout from "./default.astro";
+const parentPath = Astro.url.pathname.replace(/\/[^/]+\/?$/, "/");
 const { frontmatter } = Astro.props;
 ---
 
 <Layout>
   <div class="size">
-    <h1>{frontmatter.title}</h1>
-    <hr />
+    <div class="titlebox">
+      <h1 class="title">{frontmatter.title}</h1>
+      <img src="/favicon.png" />
+      <div class="date">
+        <p>
+          {new Date(frontmatter.date).toLocaleDateString("en-UK")}
+        </p>
+        <a class="backBtn" href={parentPath}>back</a>
+      </div>
+    </div>
+
     <div class="article">
       <slot />
-    </div>
-    <div class="">
-      <p class="">Written by Gerhard</p>
-      <div class="">
-        <div class="">
-          <p class="">
-            {new Date(frontmatter.date).toLocaleDateString("en-UK")}
-          </p>
-        </div>
-        <img class="" width="45px" src="/favicon.svg" />
-      </div>
     </div>
   </div>
 </Layout>
@@ -28,8 +27,50 @@ const { frontmatter } = Astro.props;
 
 <style>
   .size {
-    max-width: 40em;
     margin: auto;
+    margin-top: 2em;
+    margin-bottom: 6em;
+    padding: 0em 1em;
+  }
+
+  .titlebox {
+    position: relative;
+
+    .title {
+      text-align: center;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-bg-dark);
+      margin-right: 1.2em;
+      padding-bottom: 0.3em;
+    }
+
+    img {
+      position: absolute;
+      height: 2em;
+      right: 0;
+      bottom: 1em;
+    }
+
+    .date {
+      margin-top: 1em;
+      color: var(--color-text-blockquote);
+      font-size: 0.8em;
+
+      display: flex;
+      justify-content: space-between;
+
+      padding-right: 3.1em;
+
+      .backBtn {
+        cursor: pointer;
+        color: var(--color-text-link);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    margin-bottom: 4em;
   }
 
   .article {
@@ -40,10 +81,6 @@ const { frontmatter } = Astro.props;
 
       &:hover {
         text-decoration: underline;
-      }
-
-      &:visited {
-        color: var(--color-text-link-after);
       }
     }
 

@@ -1,5 +1,4 @@
 ---
-import Navbar from "../components/Navbar/Navbar.astro";
 import "./global.css";
 ---
 
@@ -8,17 +7,10 @@ import "./global.css";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png+xml" href="/favicon.png" />
   </head>
   <body>
-    <main>
-      <Navbar />
-      <div class="clipper">
-        <div class="feed">
-          <slot />
-        </div>
-      </div>
-    </main>
+    <slot />
   </body>
 </html>
 
@@ -39,38 +31,5 @@ import "./global.css";
     background-image: url("/images/texture.png");
     background-repeat: repeat;
     background-size: 400px;
-  }
-
-  .feed {
-    padding-top: 4em;
-    padding-bottom: 4em;
-    margin: auto;
-
-    position: relative;
-    height: 100%;
-    width: 900px;
-  }
-
-  @media (max-width: 1300px) {
-    .feed {
-      margin-left: 200px;
-    }
-  }
-
-  @media (max-width: 1100px) {
-    .feed {
-      margin: 0 2em;
-    }
-  }
-
-  @media (max-width: calc(900px + 4em)) {
-    .feed {
-      margin: 0 1em;
-      width: calc(100% - 2em);
-    }
-
-    .clipper {
-      overflow: clip;
-    }
   }
 </style>

@@ -35,19 +35,24 @@ select {
 /* Collor palette */
 
 :root {
-    /* neutrals */
+    /* BASE */
     --color-bg: #ffffff;
+    --color-fg: #222222;
+
+
+
+
+    --color-bg-dark: #535353;
+    --color-backdrop: #00000018;
 
     --color-text: #222222;
     --color-text-blockquote: #353535;
-    --color-text-link: #6000b9;
-    --color-text-link-after: #008000;
+    --color-text-link: #8a2be2;
 
-    /* accents */
-    --color-primary: #008000;
-    --color-secondary: #8a2be2;
+    --color-accent: #8a2be2;
 
-    --color-backdrop: #00000018;
+
+
 }
 
 :root.dark {

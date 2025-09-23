@@ -1,4 +1,6 @@
 ---
+import Layout from "../layouts/main.astro";
+
 import cave from "../assets/garden/cave.gif";
 import miner from "../assets/garden/mc-pikachu.gif";
 import man from "../assets/garden/meme_man.png";
@@ -36,215 +38,199 @@ import penguin from "../assets/garden/penguin.gif";
 import restMP3 from "../assets/garden/rest.mp3";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
-  <body>
-    <div class="caveDiv">
-      <img class="cave" src={cave.src} />
-      <img class="miner" src={miner.src} />
-      <img class="dug" src={dug.src} />
-      <img class="spider" src={spider.src} />
-    </div>
+<Layout>
+  <div class="caveDiv">
+    <img class="cave" src={cave.src} />
+    <img class="miner" src={miner.src} />
+    <img class="dug" src={dug.src} />
+    <img class="spider" src={spider.src} />
+  </div>
 
-    <img class="mine" src={mine.src} />
+  <img class="mine" src={mine.src} />
 
-    <img class="skull" src={skull.src} />
-    <div class="golden-reodor">
-      <img id="goldenSpinner" class="golden" src={golden.src} />
-      <div class="reodor">
-        <div class="reodor-fix"></div>
-        <img src={reodor.src} />
-      </div>
-      <audio id="goldenMP3" src={goldenMP3} preload="auto" loop></audio>
+  <img class="skull" src={skull.src} />
+  <div class="golden-reodor">
+    <img id="goldenSpinner" class="golden" src={golden.src} />
+    <div class="reodor">
+      <div class="reodor-fix"></div>
+      <img src={reodor.src} />
     </div>
-    <script is:inline>
-      const el = document.getElementById("goldenSpinner");
-      const audio = document.getElementById("goldenMP3");
-      let spinning = false;
-      function playGolden() {
-        if (!spinning) {
-          el.style.animationPlayState = "running";
-          audio.play().catch(() => {});
-          spinning = true;
-        } else {
-          el.style.animationPlayState = "paused";
-          audio.pause();
-          spinning = false;
-        }
+    <audio id="goldenMP3" src={goldenMP3} preload="auto" loop></audio>
+  </div>
+  <script is:inline>
+    const el = document.getElementById("goldenSpinner");
+    const audio = document.getElementById("goldenMP3");
+    let spinning = false;
+    function playGolden() {
+      if (!spinning) {
+        el.style.animationPlayState = "running";
+        audio.play().catch(() => {});
+        spinning = true;
+      } else {
+        el.style.animationPlayState = "paused";
+        audio.pause();
+        spinning = false;
       }
-      el.addEventListener("click", playGolden);
-    </script>
+    }
+    el.addEventListener("click", playGolden);
+  </script>
 
-    <div class="welcome">
-      <div class="text">
-        <span>Welcome to the garden! </span>
+  <div class="welcome">
+    <div class="text">
+      <span>Welcome to the garden! </span>
 
-        <p>
-          Sometimes called a "digital scrapbook," this follows a tradition of
-          the early internet. Here I gather things that feel precious and lost.
-          It's a reflection of myself in the greater zeitgeist.This page also
-          contains a lot of secrets, so do click around! Hope you enjoy your
-          wander.
-        </p>
-      </div>
-      <btn class="homeBtn" onmouseup="window.location.href='/';"
-        >Welp! Take me home!</btn
-      >
-
-      <img id="kalm" class="man" onclick="panik()" src={man.src} />
-      <img id="panik" class="man panik" src={panik.src} />
-
-      <a
-        href="https://geekprank.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img class="btn" src={btn.src} /></a
-      >
+      <p>
+        Sometimes called a "digital scrapbook," this follows a tradition of the
+        early internet. Here I gather things that feel precious and lost. It's a
+        reflection of myself in the greater zeitgeist.This page also contains a
+        lot of secrets, so do click around! Hope you enjoy your wander.
+      </p>
     </div>
-    <script is:inline>
-      function panik() {
-        console.log("panik");
-        const img = document.getElementById("panik");
-        img.style.visibility = "visible";
-        setTimeout(() => {
-          img.style.visibility = "hidden";
-        }, 3000);
-      }
-    </script>
+    <btn class="homeBtn" onmouseup="window.location.href='/';"
+      >Welp! Take me home!</btn
+    >
 
-    <img class="synec" src={synec.src} />
+    <img id="kalm" class="man" onclick="panik()" src={man.src} />
+    <img id="panik" class="man panik" src={panik.src} />
 
-    <div class="n1">
-      <img
-        class="n1-photo"
-        src={n1.src}
-        onclick="let v=document.querySelector('.n1-mp4'); 
+    <a href="https://geekprank.com/" target="_blank" rel="noopener noreferrer">
+      <img class="btn" src={btn.src} /></a
+    >
+  </div>
+  <script is:inline>
+    function panik() {
+      console.log("panik");
+      const img = document.getElementById("panik");
+      img.style.visibility = "visible";
+      setTimeout(() => {
+        img.style.visibility = "hidden";
+      }, 3000);
+    }
+  </script>
+
+  <img class="synec" src={synec.src} />
+
+  <div class="n1">
+    <img
+      class="n1-photo"
+      src={n1.src}
+      onclick="let v=document.querySelector('.n1-mp4'); 
            if(v.style.display==='none'){v.style.display='block';setTimeout(()=>v.classList.add('fadein'),100);} 
            else {v.classList.remove('fadein');setTimeout(()=>v.style.display='none',300);}"
-      />
+    />
 
-      <video
-        class="n1-mp4"
-        src={n1MP4}
-        style="display:none;"
-        controls
-        playsinline></video>
-    </div>
+    <video class="n1-mp4" src={n1MP4} style="display:none;" controls playsinline
+    ></video>
+  </div>
 
-    <img class="star2" src={star2.src} />
+  <img class="star2" src={star2.src} />
 
+  <a
+    href="https://www.youtube.com/watch?v=cC1CqyCN9Q0&list=PL1gANTl5seohe2g2cTFpdrhefRbgH2yQP&index=6"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="cursor:default"
+  >
+    <img class="linux" src={linux.src} />
+  </a>
+
+  <img class="dp" src={dp.src} />
+
+  <video
+    class="wtf"
+    src={wtf}
+    playsinline
+    onclick="this.currentTime=0; this.play();"
+    onended="this.currentTime=0; this.pause();"></video>
+
+  <a
+    href="https://www.youtube.com/watch?v=D8K90hX4PrE"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="cursor:default"
+  >
+    <img class="tec" src={tec.src} /></a
+  >
+  <img class="car" src={car.src} />
+  <img class="nes" src={nes.src} />
+
+  <div class="rest">
+    <img id="rest-img" class="rest-img" src={rest.src} />
+    <audio id="restMP3" src={restMP3} preload="auto" loop></audio>
     <a
-      href="https://www.youtube.com/watch?v=cC1CqyCN9Q0&list=PL1gANTl5seohe2g2cTFpdrhefRbgH2yQP&index=6"
+      id="rest-link"
+      href="https://www.youtube.com/watch?v=XhKdg49h4Cw&list=OLAK5uy_n0pSySv7qU48ZEeXQLrNttSQdYPz_iaQ0"
       target="_blank"
-      rel="noopener noreferrer"
-      style="cursor:default"
+      rel="noopener noreferrer">633397</a
     >
-      <img class="linux" src={linux.src} />
-    </a>
-
-    <img class="dp" src={dp.src} />
-
-    <video
-      class="wtf"
-      src={wtf}
-      playsinline
-      onclick="this.currentTime=0; this.play();"
-      onended="this.currentTime=0; this.pause();"></video>
-
-    <a
-      href="https://www.youtube.com/watch?v=D8K90hX4PrE"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="cursor:default"
-    >
-      <img class="tec" src={tec.src} /></a
-    >
-    <img class="car" src={car.src} />
-    <img class="nes" src={nes.src} />
-
-    <div class="rest">
-      <img id="rest-img" class="rest-img" src={rest.src} />
-      <audio id="restMP3" src={restMP3} preload="auto" loop></audio>
-      <a
-        id="rest-link"
-        href="https://www.youtube.com/watch?v=XhKdg49h4Cw&list=OLAK5uy_n0pSySv7qU48ZEeXQLrNttSQdYPz_iaQ0"
-        target="_blank"
-        rel="noopener noreferrer">633397</a
-      >
-    </div>
-    <script is:inline>
-      const img = document.getElementById("rest-img");
-      const link = document.getElementById("rest-link");
-      const audio2 = document.getElementById("restMP3");
-      let playing = false;
-      function playGolden() {
-        if (!playing) {
-          audio2.currentTime = 0;
-          audio2.play().catch(() => {});
-          link.style.display = "block";
-          playing = true;
-        } else {
-          audio2.pause();
-          playing = false;
-        }
+  </div>
+  <script is:inline>
+    const img = document.getElementById("rest-img");
+    const link = document.getElementById("rest-link");
+    const audio2 = document.getElementById("restMP3");
+    let playing = false;
+    function playGolden() {
+      if (!playing) {
+        audio2.currentTime = 0;
+        audio2.play().catch(() => {});
+        link.style.display = "block";
+        playing = true;
+      } else {
+        audio2.pause();
+        playing = false;
       }
-      img.addEventListener("click", playGolden);
-    </script>
+    }
+    img.addEventListener("click", playGolden);
+  </script>
 
-    <div class="earth-border">
-      <img class="border" src={border.src} />
-      <img class="earth" src={earth.src} />
-    </div>
+  <div class="earth-border">
+    <img class="border" src={border.src} />
+    <img class="earth" src={earth.src} />
+  </div>
 
-    <img class="corri" src={corri.src} />
-    <img class="birb" src={birb.src} />
+  <img class="corri" src={corri.src} />
+  <img class="birb" src={birb.src} />
 
-    <a
-      href="https://www.youtube.com/watch?v=bTS9XaoQ6mg"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="cursor:default"
-    >
-      <img class="quest" src={quest.src} />
-    </a>
+  <a
+    href="https://www.youtube.com/watch?v=bTS9XaoQ6mg"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="cursor:default"
+  >
+    <img class="quest" src={quest.src} />
+  </a>
 
-    <div class="perTrol">
-      <img
-        class="per"
-        src={per.src}
-        onclick="document.querySelector('.trol').style.display = 'block';"
-      />
-      <img class="trol" src={trol.src} />
-    </div>
-
-    <a
-      href="https://nixos.org/"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="cursor:default"
-    >
-      <img class="nixos" src={nixos.src} />
-    </a>
-
-    <a
-      href="https://play.cpjourney.net/"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="cursor:default"
-    >
-      <img class="penguin" src={penguin.src} /></a
-    >
-
+  <div class="perTrol">
     <img
-      class="buran"
-      src={buran.src}
-      onclick="let b=document.querySelector('.buran'); 
+      class="per"
+      src={per.src}
+      onclick="document.querySelector('.trol').style.display = 'block';"
+    />
+    <img class="trol" src={trol.src} />
+  </div>
+
+  <a
+    href="https://nixos.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="cursor:default"
+  >
+    <img class="nixos" src={nixos.src} />
+  </a>
+
+  <a
+    href="https://play.cpjourney.net/"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="cursor:default"
+  >
+    <img class="penguin" src={penguin.src} /></a
+  >
+
+  <img
+    class="buran"
+    src={buran.src}
+    onclick="let b=document.querySelector('.buran'); 
       if(b.style.height==='1000px'){  
       b.style.height = '300px';
   b.style.left = '1525px';
@@ -252,16 +238,13 @@ import restMP3 from "../assets/garden/rest.mp3";
       else
       {b.style.height = '1000px';
   b.style.left = '900px';}"
-    />
+  />
 
-    <div class="home">
-      <btn class="homeBtn" onmouseup="window.location.href='/';"
-        >Nach Hause!</btn
-      >
-      <img class="door" src={door.src} />
-    </div>
-  </body>
-</html>
+  <div class="home">
+    <btn class="homeBtn" onmouseup="window.location.href='/';">Nach Hause!</btn>
+    <img class="door" src={door.src} />
+  </div>
+</Layout>
 
 <!-- ######################################################################## CSS ######################################################################## -->
 
