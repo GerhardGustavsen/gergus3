@@ -1,0 +1,134 @@
+---
+import Layout from "../layouts/main.astro";
+import Navbar from "../components/Navbar/Navbar.astro";
+import title from "../assets/title.png";
+import branch from "../assets/branch.png";
+---
+
+<Layout>
+  <Navbar />
+  <main class="feed">
+    <div class="backdrop"></div>
+    <div class="titleBox">
+      <img class="branch" src={branch.src} alt="Branch img" />
+      <img class="title" src={title.src} alt="Gerhard's Page" />
+    </div>
+
+    <p class="greeting">
+      <span class="hi">Hi👋,</span> and welcome to my corner of the internet! Here
+      you can find my writings, and read about some of my projects. You may also
+      leave me a note in the guestbook, or take a wander in the garden. If you are
+      looking for some inspiration, you can check out the books I have read and the
+      movies I love. I have also tried to collect some of my absolute favorite literature
+      and art in the archive. Looking for other cool websites? Check out my links!
+      Hope you enjoy your stay!
+    </p>
+  </main>
+</Layout>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+  .feed {
+    position: relative;
+    margin: auto;
+    width: 900px;
+    padding-top: 4em;
+    padding-bottom: 7em;
+  }
+
+  .titleBox {
+    position: relative;
+
+    .branch {
+      height: 600px;
+    }
+
+    .title {
+      height: 300px;
+      position: absolute;
+      top: 160px;
+      left: 340px;
+    }
+  }
+
+  .greeting {
+    position: relative;
+    width: 27em;
+    margin-top: -140px;
+    margin-left: 290px;
+
+    font-size: 1em;
+    padding: 8px;
+    text-align: justify;
+
+    .hi {
+      font-size: 1.5em;
+      font-weight: bold;
+      font-family: "Times New Roman";
+      color: var(--color-accent);
+    }
+  }
+
+  .backdrop {
+    background-color: var(--color-backdrop);
+    width: 598px;
+    height: 700px;
+    position: absolute;
+    top: 170px;
+    left: 120px;
+  }
+
+  @media (max-width: 1300px) {
+    .feed {
+      margin-left: 200px;
+    }
+  }
+  @media (max-width: 1100px) {
+    .feed {
+      margin-left: 0px;
+      float: right;
+    }
+  }
+  @media (max-width: 900px) {
+    .feed {
+      float: none;
+      width: 100%;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      overflow: hidden;
+    }
+
+    .backdrop {
+      display: none;
+    }
+
+    .titleBox {
+      margin: auto;
+      width: fit-content;
+
+      .branch {
+        height: 500px;
+        margin-left: -210px;
+
+        transform: rotate(-20deg);
+      }
+
+      .title {
+        left: -50px;
+        top: 300px;
+        margin-right: 0px;
+      }
+    }
+
+    .greeting {
+      margin: auto;
+      margin-top: 100px;
+
+      max-width: fit-content;
+
+      margin-bottom: 4em;
+    }
+  }
+</style>
