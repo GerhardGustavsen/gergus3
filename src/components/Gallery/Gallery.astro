@@ -1,0 +1,239 @@
+---
+/** RandomGallery.astro */
+interface Props {
+    /** Either pass images (absolute/processed URLs) OR a glob. */
+    images?: string[];
+    /** Max rendered width/height per image (px). Default: 360 */
+    maxSize?: number;
+    /** Delay between dropping each image (ms). Default: 180 */
+    delayMs?: number;
+    /** Side margin in px. Default: 24 (override with CSS too) */
+    sideMargin?: number;
+    /** Rotation range in degrees. Default: 30 (=> -30..+30) */
+    rotationRange?: number;
+}
+
+const {
+    images = [],
+    maxSize = 400,
+    delayMs = 50,
+    rotationRange = 30,
+} = Astro.props;
+---
+
+<style>
+    /* Container is relative; children are absolutely placed. */
+    .windowWidth {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+    }
+
+    #gallery {
+        position: relative;
+
+        margin: auto;
+        width: 80%;
+
+        height: 1000px;
+    }
+
+    .rg__img {
+        position: absolute;
+        display: block;
+        will-change: transform, left, top;
+        transform-origin: 50% 50%;
+        /* Soft corners + subtle shadow look nice for “polaroid” vibes */
+        border-radius: 6px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        /* Make sure images don’t exceed caps; actual size is set via JS ratio */
+        max-width: 100%;
+        user-select: none;
+    }
+</style>
+
+<div class="windowWidth">
+    <div
+        id="gallery"
+        data-max={maxSize}
+        data-delay={delayMs}
+        data-rot={rotationRange}
+    >
+        {
+            images.map((u) => (
+                <img
+                    class="rg__img"
+                    src={u.src}
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                />
+            ))
+        }
+    </div>
+</div>
+
+<script is:inline>
+    // Minimal, no-dependency layout logic.
+    // Strategy:
+    //  - One-by-one: wait for natural size, compute scale <= maxSize (w/h).
+    //  - Pick random X (respecting side margins) and a random rotation (-R..R).
+    //  - Y increases as we drop images; we also try to avoid overlaps by bumping X a few times.
+    //  - Container height tracks the lowest placed bottom edge.
+
+    const container = document.getElementById("gallery");
+    const maxSize = Number(container.dataset.max || 360);
+    const delayMs = Number(container.dataset.delay || 180);
+    const rotRange = Number(container.dataset.rot || 30);
+
+    const imgs = Array.from(container.querySelectorAll("img"));
+    let placed = []; // {x,y,w,h}
+    let currentY = 0;
+    const baseGapY = maxSize / 30; // vertical spacing baseline
+    const triesPerImage = 30;
+
+    const rand = (min, max) => Math.random() * (max - min) + min;
+
+    function overlaps(a, b) {
+        // Axis-aligned bounding box; rotation ignored (good enough for small angles)
+        return !(
+            a.x + a.w <= b.x ||
+            b.x + b.w <= a.x ||
+            a.y + a.h <= b.y ||
+            b.y + b.h <= a.y
+        );
+    }
+
+    function updateContainerHeight(bottom) {
+        // Add some breathing room
+        container.style.height = Math.ceil(bottom) + "px";
+    }
+
+    function layoutOne(img, yBase) {
+        const cw = container.clientWidth;
+
+        console.log(cw);
+        const usableW = Math.max(0, cw);
+
+        // natural size
+        const nw = img.naturalWidth || 1;
+        const nh = img.naturalHeight || 1;
+
+        // scale to fit max width/height
+        const scale = Math.min(maxSize / nw, maxSize / nh, 1);
+        const w = Math.max(1, Math.round(nw * scale));
+        const h = Math.max(1, Math.round(nh * scale));
+
+        // pick rotation
+        const rot = rand(-rotRange, rotRange);
+
+        // y jitter for variation
+        const yJitter = rand(-8, 8);
+        const y = Math.max(0, yBase + yJitter);
+
+        // try random x positions until no overlap (or give up)
+        let x = 0;
+        let ok = false;
+        for (let attempt = 0; attempt < triesPerImage; attempt++) {
+            const candX = rand(0, Math.max(0, usableW - w));
+            const cand = { x: candX, y, w, h };
+            ok = true;
+            for (const p of placed) {
+                if (overlaps(cand, p)) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) {
+                x = candX;
+                break;
+            }
+        }
+        if (!ok) {
+            // If we can't find a clean slot, just clamp near a random x; the next y will push us down.
+            x = Math.max(0, Math.min(usableW - w, rand(0, usableW - w)));
+        }
+
+        // position + size + rotation
+        img.style.width = w + "px";
+        img.style.height = h + "px";
+        img.style.left = Math.round(x) + "px";
+        img.style.top = Math.round(y) + "px";
+        img.style.transform = `rotate(${rot}deg)`;
+
+        placed.push({ x, y, w, h });
+        updateContainerHeight(y + h);
+        return h;
+    }
+
+    async function placeImagesSequentially() {
+        for (let i = 0; i < imgs.length; i++) {
+            const img = imgs[i];
+
+            // Wait until the image is decoded so natural sizes are correct.
+            try {
+                if (img.decode) await img.decode();
+                else
+                    await new Promise((res) =>
+                        img.complete
+                            ? res()
+                            : img.addEventListener("load", res, { once: true }),
+                    );
+            } catch (_) {
+                // ignore decode errors; use whatever is available
+            }
+
+            const h = layoutOne(img, currentY);
+
+            // Advance Y for the next image: height plus baseline, with a little randomness based on width
+            currentY += Math.max(16, h * 0.55) + baseGapY + rand(-6, 12);
+
+            // Delay before dropping the next one
+            if (i < imgs.length - 1) {
+                await new Promise((r) => setTimeout(r, delayMs));
+            }
+        }
+    }
+
+    // Re-layout on resize (debounced)
+    let rAF = 0,
+        lastW = 0;
+    function relayout() {
+        cancelAnimationFrame(rAF);
+        rAF = requestAnimationFrame(() => {
+            const cw = container.clientWidth;
+            if (Math.abs(cw - lastW) < 2) return;
+            lastW = cw;
+
+            // Reset all and re-place
+            placed = [];
+            currentY = 0;
+            container.style.height = "0px";
+            for (const img of imgs) {
+                // Remove size/pos to let decode give us natural dims again
+                img.style.width = "";
+                img.style.height = "";
+                img.style.left = "-99999px";
+                img.style.top = "-99999px";
+            }
+
+            // Recompute immediately (no delays on resize to avoid flicker)
+            for (const img of imgs) {
+                layoutOne(img, currentY);
+                currentY +=
+                    Math.max(16, img.clientHeight * 0.55) +
+                    baseGapY +
+                    rand(-6, 12);
+            }
+        });
+    }
+
+    // Initial invisible positioning: keep off-screen until placed
+    for (const img of imgs) {
+        img.style.left = "-99999px";
+        img.style.top = "-99999px";
+    }
+
+    placeImagesSequentially();
+    window.addEventListener("resize", () => relayout(), { passive: true });
+</script>

@@ -1,18 +1,24 @@
 ---
 import Layout from "../layouts/default.astro";
-import IndexList from "../components/PostList/PostGroups.astro";
-const modules = import.meta.glob("./*.md", { eager: true });
-const posts = Object.values(modules);
+import Gallery from "../components/Gallery/Gallery.astro";
+const mods = import.meta.glob("../assets/photos/*.{jpg,jpeg,png,webp,avif}", {
+    eager: true,
+    import: "default",
+});
+
+const urls = Object.values(mods);
+
+console.log(urls);
 ---
 
 <Layout>
     <div class="feed">
         <div class="titleBox">
-            <h1 class="title">my photoes</h1>
+            <h1 class="title">my photoes 🖼</h1>
             <p class="about">Here i ... and a bit of sssdjkad. enjoy!</p>
         </div>
-        <IndexList posts={posts} groups={["two"]} />
     </div>
+    <Gallery images={urls} maxSize={500} delayMs={160} rotationRange={30} />
 </Layout>
 
 <!-- ######################## CSS ######################## -->
