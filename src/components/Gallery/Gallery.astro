@@ -1,6 +1,6 @@
 ---
 interface Props {
-    images?: string[];
+    images?: any[];
     maxSize?: number;
     delayMs?: number;
     rotationRange?: number;
@@ -40,7 +40,12 @@ const {
         border-radius: 0.2em;
         box-shadow: 0 0 8px var(--color-text);
 
-        transition: all 1s ease;
+        transition:
+            width 2s ease,
+            height 2s ease,
+            transform 2s ease,
+            left 2s ease,
+            top 1.9s ease;
     }
 </style>
 
@@ -241,9 +246,10 @@ const {
             this.style.width = w / 3 + "px";
             this.style.left = origLeft;
             this.style.transform = origRot;
-            this.style.zIndex = 0;
 
             scaled = false;
+
+            setTimeout(() => (this.style.zIndex = 0), 2000);
         }
     }
 

@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/default.astro";
+import IndexList from "../components/PostList/PostGroups.astro";
+const modules = import.meta.glob("./*.md", { eager: true });
+const posts = Object.values(modules);
+---
+
+<Layout>
+  <div class="feed">
+    <div class="titleBox">
+      <h1 class="title">404</h1>
+      <p class="about">
+        Oops! Looks like the page you wanted has wandered off. :(
+      </p>
+    </div>
+  </div>
+</Layout>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+  .feed {
+    margin: auto;
+    margin-top: 7em;
+    margin-bottom: 6em;
+    padding: 0em 1em;
+    .titleBox {
+      padding-bottom: 1em;
+      .title {
+        font-size: 20em;
+        text-align: center;
+        color: var(--color-primary);
+
+        text-shadow: 0.03em 0.03em 0.1em var(--color-bg-dark);
+      }
+
+      .about {
+        color: var(--color-text-blockquote);
+        text-align: center;
+      }
+    }
+  }
+
+  @media (max-width: 1300px) {
+    .feed .titleBox .title {
+      font-size: 10em;
+    }
+  }
+</style>
