@@ -1,0 +1,60 @@
+---
+import PostList from "./MovieList.astro";
+
+interface Props {
+    media: any[];
+}
+
+const { media } = Astro.props;
+
+function fm(post: any) {
+    return post.frontmatter ?? post.data ?? {};
+}
+
+// Compare by rating desc, then by year desc if rating ties
+function cmpMovies(a: any, b: any) {
+    const fa = fm(a);
+    const fb = fm(b);
+    const ra = fa.rating ?? 0;
+    const rb = fb.rating ?? 0;
+    if (ra !== rb) return rb - ra;
+    const ya = Number(fa.year ?? 0);
+    const yb = Number(fb.year ?? 0);
+    return yb - ya;
+}
+
+// 1) Favorites
+const favorites = media.filter((p) => !!fm(p).favorite);
+
+// 2) Group by director
+const buckets = new Map<string, any[]>();
+for (const post of media) {
+    const d = fm(post).director ?? "Unknown director";
+    if (!buckets.has(d)) buckets.set(d, []);
+    buckets.get(d)!.push(post);
+}
+
+// Sort movies within each director
+for (const [d, arr] of buckets) arr.sort(cmpMovies);
+
+// Sort directors alphabetically (case-insensitive)
+const directors = Array.from(buckets.keys()).sort((a, b) =>
+    a.toLowerCase().localeCompare(b.toLowerCase()),
+);
+---
+
+<>
+    {
+        favorites.length > 0 && (
+            <PostList posts={favorites} title="My all time favorites:" />
+        )
+    }
+
+    {
+        directors.map((d) => {
+            const list = buckets.get(d) ?? [];
+            if (list.length === 0) return null;
+            return <PostList posts={list} title={d} />;
+        })
+    }
+</>

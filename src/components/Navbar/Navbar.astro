@@ -178,6 +178,8 @@ import DarkMode from "./DarkMode.astro";
     display: none;
 
     transition: color 0.3s ease;
+
+    z-index: 100;
   }
   .burger:hover {
     color: var(--color-accent);
@@ -219,6 +221,14 @@ import DarkMode from "./DarkMode.astro";
 
     .clicked:hover {
       color: var(--color-text);
+    }
+  }
+</style>
+
+<style is:inline>
+  :root.dark {
+    .expanded {
+      background-image: none;
     }
   }
 </style>

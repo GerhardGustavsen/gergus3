@@ -19,38 +19,36 @@ function stars(n: any) {
 }
 ---
 
-<div class="list">
+<ul class="list">
     {title && <h3 class="title">{title}</h3>}
-    <ul class="items">
-        {
-            posts.map((post: any) => {
-                const f = fm(post);
-                return (
-                    <li class="element">
-                        <a href={post.url}>
-                            <div class="x">
-                                <img class="cover" src={f.img} loading="lazy" />
-
-                                <div class="y">
-                                    <div class="book">
-                                        {f.title ?? post.slug ?? post.id}
-                                    </div>
-                                    <span class="author">{f.author}</span>
-                                </div>
-                            </div>
-                        </a>
+    {
+        posts.map((post: any) => {
+            const f = fm(post);
+            return (
+                <li class="element">
+                    <a href={post.url}>
                         <div class="x">
+                            <img class="cover" src={f.img} loading="lazy" />
+
                             <div class="y">
-                                <div class="date">{fmtDate(f.date)}</div>
-                                <div class="rating">{stars(f.rating)}</div>
+                                <div class="book">
+                                    {f.title ?? post.slug ?? post.id}
+                                </div>
+                                <span class="author">{f.author}</span>
                             </div>
                         </div>
-                    </li>
-                );
-            })
-        }
-    </ul>
-</div>
+                    </a>
+                    <div class="x">
+                        <div class="y">
+                            <div class="date">{fmtDate(f.date)}</div>
+                            <div class="rating">{stars(f.rating)}</div>
+                        </div>
+                    </div>
+                </li>
+            );
+        })
+    }
+</ul>
 
 <!-- ######################## CSS ######################## -->
 <style>
@@ -59,7 +57,6 @@ function stars(n: any) {
 
         .title {
             border-bottom: 1px solid var(--color-backdrop);
-            margin: 0;
             padding-bottom: 0.5em;
         }
 
@@ -72,6 +69,11 @@ function stars(n: any) {
         }
         .element:last-child {
             border-bottom: none;
+        }
+        .element:hover {
+            .book {
+                text-decoration: underline;
+            }
         }
 
         .x {

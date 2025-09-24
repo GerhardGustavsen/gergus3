@@ -10,21 +10,19 @@ function fmtDate(d: string | Date) {
 }
 ---
 
-<div class="list">
+<ul class="list">
     {title && <h3 class="title">{title}</h3>}
-    <ul class="">
-        {
-            posts.map((post: any) => (
-                <li class="element">
-                    <a href={post.url}>
-                        {post.frontmatter?.title ?? post.slug ?? post.id}
-                    </a>
-                    <p class="date">{fmtDate(post.frontmatter?.date)}</p>
-                </li>
-            ))
-        }
-    </ul>
-</div>
+    {
+        posts.map((post: any) => (
+            <li class="element">
+                <a href={post.url}>
+                    {post.frontmatter?.title ?? post.slug ?? post.id}
+                </a>
+                <p class="date">{fmtDate(post.frontmatter?.date)}</p>
+            </li>
+        ))
+    }
+</ul>
 
 <!-- ######################## CSS ######################## -->
 
@@ -34,7 +32,6 @@ function fmtDate(d: string | Date) {
 
         .title {
             border-bottom: 1px solid var(--color-backdrop);
-            margin: 0;
             padding-bottom: 0.5em;
         }
 
