@@ -9,37 +9,45 @@ const show = keys.length > 1;
 
 {
     show && (
-        <div class="groupby-buttons" aria-label="Group by">
-            {keys.map((k, i) => (
-                <button
-                    type="button"
-                    class={`groupby-btn ${i === 0 ? "active" : ""}`}
-                    data-key={k}
-                >
-                    {k}
-                </button>
-            ))}
+        <div class="container">
+            <p class="element title">Group by:</p>
+            <div class="groupby-buttons">
+                {keys.map((k, i) => (
+                    <button
+                        type="button"
+                        class={`groupby-btn element ${i === 0 ? "active" : ""}`}
+                        data-key={k}
+                    >
+                        {k}
+                    </button>
+                ))}
+            </div>
         </div>
     )
 }
 
 <style>
-    .groupby-buttons {
+    .container {
         display: flex;
-        gap: 0.5rem;
-        margin: 0.75rem 0 1.25rem;
-        flex-wrap: wrap;
-    }
-    .groupby-btn {
-        padding: 0.35rem 0.6rem;
-        border: 1px solid #888;
-        border-radius: 0.4rem;
-        background: transparent;
-        cursor: pointer;
-    }
-    .groupby-btn.active {
-        background: #eee;
-        font-weight: 600;
+        justify-content: center;
+
+        .title {
+            font-weight: bold;
+        }
+        .element {
+            padding-right: 1em;
+            font-size: 1.2em;
+        }
+        .groupby-btn {
+            color: var(--color-accent);
+            cursor: pointer;
+        }
+        .groupby-btn.active {
+            font-weight: bold;
+        }
+        .groupby-btn:hover {
+            text-decoration: underline;
+        }
     }
 </style>
 
