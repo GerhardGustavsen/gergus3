@@ -3,15 +3,16 @@ import PostList from "./MovieList.astro";
 
 interface Props {
     media: any[];
+    groupBy: string; // e.g. "director", "year", "tags"
+    favorites?: boolean; // default false
 }
 
-const { media } = Astro.props;
+const { media, groupBy = "director", favorites = true } = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
 }
 
-// Compare by rating desc, then by year desc if rating ties
 function cmpMovies(a: any, b: any) {
     const fa = fm(a);
     const fb = fm(b);
@@ -23,38 +24,39 @@ function cmpMovies(a: any, b: any) {
     return yb - ya;
 }
 
-// 1) Favorites
-const favorites = media.filter((p) => !!fm(p).favorite);
+// Favorites (only filtered if enabled)
+const favs = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 
-// 2) Group by director
+// Group by chosen attribute
 const buckets = new Map<string, any[]>();
 for (const post of media) {
-    const d = fm(post).director ?? "Unknown director";
-    if (!buckets.has(d)) buckets.set(d, []);
-    buckets.get(d)!.push(post);
+    const f = fm(post);
+    const key = f[groupBy] ?? `Unknown ${groupBy}`;
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key)!.push(post);
 }
 
-// Sort movies within each director
-for (const [d, arr] of buckets) arr.sort(cmpMovies);
+// Sort inside each bucket
+for (const [key, arr] of buckets) arr.sort(cmpMovies);
 
-// Sort directors alphabetically (case-insensitive)
-const directors = Array.from(buckets.keys()).sort((a, b) =>
+// Sort group keys
+const groups = Array.from(buckets.keys()).sort((a, b) =>
     a.toLowerCase().localeCompare(b.toLowerCase()),
 );
 ---
 
 <>
     {
-        favorites.length > 0 && (
-            <PostList posts={favorites} title="My all time favorites:" />
+        favorites && favs.length > 0 && (
+            <PostList posts={favs} title="My all time favorites:" />
         )
     }
 
     {
-        directors.map((d) => {
-            const list = buckets.get(d) ?? [];
+        groups.map((g) => {
+            const list = buckets.get(g) ?? [];
             if (list.length === 0) return null;
-            return <PostList posts={list} title={d} />;
+            return <PostList posts={list} title={g} />;
         })
     }
 </>
