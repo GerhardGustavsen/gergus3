@@ -39,28 +39,27 @@ select {
     --color-bg: #ffffff;
     --color-fg: #222222;
 
-
-
-
     --color-bg-dark: #535353;
     --color-backdrop: #00000018;
 
-    --color-text: #222222;
+    --color-text: var(--color-fg);
     --color-text-blockquote: #353535;
     --color-text-link: #8a2be2;
 
     --color-accent: #8a2be2;
-
-
-
 }
 
 :root.dark {
-    --color-bg: #111111;
-    --color-text: #f0f0f0;
+    /* BASE */
+    --color-bg: #130010;
+    --color-fg: #f3f3f3;
 
-    --color-primary: #00c6d9;
-    --color-secondary: #f06292;
+    --color-bg-dark: #c7c7c7;
+    --color-backdrop: #ffffff18;
 
-    --color-backdrop: #00000018;
+    --color-text: var(--color-fg);
+    --color-text-blockquote: #353535;
+    --color-text-link: #8a2be2;
+
+    --color-accent: #8a2be2;
 }

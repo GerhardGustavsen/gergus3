@@ -1,0 +1,57 @@
+---
+
+---
+
+<div class="container">
+    <button id="moon" class="btn">☽</button>
+    <button id="sun" class="btn">✹</button>
+</div>
+
+<script>
+    import { swapRootAttributes } from "astro/virtual-modules/transitions-swap-functions.js";
+
+    const moon = document.getElementById("moon");
+    const sun = document.getElementById("sun");
+
+    function lightMode() {
+        console.log("setting light mode");
+
+        moon.style.display = "block";
+        sun.style.display = "none";
+
+        document.documentElement.classList.remove("dark");
+    }
+
+    function darkMode() {
+        console.log("setting dark mode");
+
+        moon.style.display = "none";
+        sun.style.display = "block";
+
+        document.documentElement.classList.add("dark");
+    }
+
+    moon?.addEventListener("click", darkMode);
+    sun?.addEventListener("click", lightMode);
+</script>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+    .container {
+        font-size: 2em;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        padding-right: 1em;
+
+        .btn {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #sun {
+            display: none;
+        }
+    }
+</style>
