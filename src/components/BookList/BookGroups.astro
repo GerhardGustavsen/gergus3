@@ -1,5 +1,5 @@
 ---
-import PostList from "./MediaList.astro";
+import PostList from "./BookList.astro";
 
 interface Props {
     media: any[];
@@ -43,7 +43,11 @@ const years = Array.from(buckets.keys()).sort((a, b) => {
 ---
 
 <>
-    {favorites.length > 0 && <PostList posts={favorites} title="Favorites" />}
+    {
+        favorites.length > 0 && (
+            <PostList posts={favorites} title="My all time favorites:" />
+        )
+    }
 
     {
         years.map((y) => {

@@ -2,9 +2,8 @@
 title: Flowers for Algernon
 author: Daniel Keyes
 date: 2025-08-17
-rating: 5
-img: /covers/flowers-for-algernon.jpg
-favorite: true
+rating: 3
+img: /images/books/3body.jpg
 isbn: "9780156030083"
 ---
 

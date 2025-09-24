@@ -3,7 +3,7 @@ const { posts = [], title = "" } = Astro.props;
 
 function fmtDate(d: string | Date) {
     try {
-        return new Date(d).toLocaleDateString("en-UK");
+        return new Date(d).toLocaleDateString("en-GB");
     } catch {
         return String(d ?? "");
     }

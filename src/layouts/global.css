@@ -42,6 +42,8 @@ select {
 
     --color-bg-dark: #535353;
     --color-backdrop: #00000018;
+    --color-shadow: #00000080;
+
 
     --color-text: var(--color-fg);
     --color-text-blockquote: #353535;
@@ -56,6 +58,8 @@ select {
 
     --color-bg-dark: #b4b4b4;
     --color-backdrop: #ffffff07;
+    --color-shadow: #00000080;
+
 
     --color-text: var(--color-fg);
     --color-text-blockquote: #d1d1d1;

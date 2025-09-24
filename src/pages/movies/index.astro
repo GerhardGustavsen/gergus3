@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/default.astro";
-import IndexList from "../../components/BookList/BookGroups.astro";
+import IndexList from "../../components/MediaList/MediaGroups.astro";
 import Title from "../../components/Title/Title.astro";
 const modules = import.meta.glob("./*.md", { eager: true });
 const media = Object.values(modules);
@@ -8,7 +8,7 @@ const media = Object.values(modules);
 
 <Layout>
   <Title
-    title="books I've read 📖︎"
+    title="Movies I like 📽"
     about="Here i ... and a bit of sssdjkad. enjoy!"
   />
   <IndexList media={media} />

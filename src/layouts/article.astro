@@ -28,8 +28,6 @@ const { frontmatter } = Astro.props;
 <style>
   .size {
     margin: auto;
-    margin-top: 2em;
-    margin-bottom: 6em;
     padding: 0em 1em;
   }
 
@@ -93,7 +91,7 @@ const { frontmatter } = Astro.props;
         max-height: 30em;
 
         border-radius: 0.2em;
-        box-shadow: 0 0 8px black;
+        box-shadow: 0 0 8px var(--color-shadow);
       }
     }
     :global(p:has(> img:only-child)) {
