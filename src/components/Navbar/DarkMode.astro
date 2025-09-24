@@ -1,57 +1,78 @@
----
-
----
-
 <div class="container">
-    <button id="moon" class="btn">☽</button>
-    <button id="sun" class="btn">✹</button>
+    <button id="moon" class="btn" title="Switch to dark">☽</button>
+    <button id="sun" class="btn" title="Switch to light" style="display:none"
+        >✵</button
+    >
 </div>
 
-<script>
-    import { swapRootAttributes } from "astro/virtual-modules/transitions-swap-functions.js";
+<script is:inline>
+    const KEY = "theme"; // "dark" | "light"
 
-    const moon = document.getElementById("moon");
-    const sun = document.getElementById("sun");
-
-    function lightMode() {
-        console.log("setting light mode");
-
-        moon.style.display = "block";
-        sun.style.display = "none";
-
-        document.documentElement.classList.remove("dark");
+    // Pick initial theme: saved -> system -> light
+    function getInitialTheme() {
+        const saved = localStorage.getItem(KEY);
+        if (saved === "dark" || saved === "light") return saved;
+        return window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
     }
 
-    function darkMode() {
-        console.log("setting dark mode");
-
-        moon.style.display = "none";
-        sun.style.display = "block";
-
-        document.documentElement.classList.add("dark");
+    function applyTheme(theme) {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        // swap icons
+        const moon = document.getElementById("moon");
+        const sun = document.getElementById("sun");
+        if (moon && sun) {
+            if (theme === "dark") {
+                moon.style.display = "none";
+                sun.style.display = "block";
+            } else {
+                moon.style.display = "block";
+                sun.style.display = "none";
+            }
+        }
     }
 
-    moon?.addEventListener("click", darkMode);
-    sun?.addEventListener("click", lightMode);
+    function setTheme(theme) {
+        localStorage.setItem(KEY, theme);
+        applyTheme(theme);
+    }
+
+    // init
+    applyTheme(getInitialTheme());
+
+    // wire buttons
+    document
+        .getElementById("moon")
+        ?.addEventListener("click", () => setTheme("dark"));
+    document
+        .getElementById("sun")
+        ?.addEventListener("click", () => setTheme("light"));
+
+    // keep multiple tabs in sync (optional but nice)
+    window.addEventListener("storage", (e) => {
+        if (
+            e.key === KEY &&
+            (e.newValue === "dark" || e.newValue === "light")
+        ) {
+            applyTheme(e.newValue);
+        }
+    });
 </script>
-
-<!-- ######################## CSS ######################## -->
 
 <style>
     .container {
         font-size: 2em;
         display: flex;
-        text-align: center;
         justify-content: center;
+        gap: 0.25em;
         padding-right: 1em;
-
-        .btn {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        #sun {
-            display: none;
-        }
+    }
+    .btn {
+        cursor: pointer;
+        user-select: none;
+        background: none;
+        border: none;
     }
 </style>

@@ -12,6 +12,8 @@ const posts = Object.values(modules);
       <p class="about">
         Oops! Looks like the page you wanted has wandered off. :(
       </p>
+
+      <a class="backBtn" href="/">Take me back!</a>
     </div>
   </div>
 </Layout>
@@ -27,17 +29,32 @@ const posts = Object.values(modules);
     .titleBox {
       padding-bottom: 1em;
       .title {
+        font-family: monospace;
         font-size: 20em;
         text-align: center;
         color: var(--color-primary);
 
-        text-shadow: 0.03em 0.03em 0.1em var(--color-bg-dark);
+        text-shadow: 0.03em 0.03em 0.1em black;
       }
 
       .about {
         color: var(--color-text-blockquote);
         text-align: center;
       }
+    }
+
+    .backBtn {
+      display: block;
+      width: fit-content;
+      margin: auto;
+      margin-top: 1em;
+
+      color: var(--color-accent);
+
+      cursor: pointer;
+    }
+    .backBtn:hover {
+      text-decoration: underline;
     }
   }
 

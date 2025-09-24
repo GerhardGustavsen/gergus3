@@ -1,0 +1,55 @@
+---
+import PostList from "./MediaList.astro";
+
+interface Props {
+    media: any[];
+}
+
+const { media } = Astro.props;
+
+function fm(post: any) {
+    return post.frontmatter ?? post.data ?? {};
+}
+
+function toYear(v: any): string {
+    const d = v ? new Date(v) : null;
+    return d && !isNaN(d as unknown as number)
+        ? String(d.getUTCFullYear())
+        : "Undated";
+}
+
+function cmpByDateDesc(a: any, b: any) {
+    const da = new Date(fm(a).date ?? 0).getTime();
+    const db = new Date(fm(b).date ?? 0).getTime();
+    return (isNaN(db) ? 0 : db) - (isNaN(da) ? 0 : da);
+}
+
+const favorites = media.filter((p) => !!fm(p).favorite);
+
+const buckets = new Map<string, any[]>();
+for (const post of media) {
+    const y = toYear(fm(post).date);
+    if (!buckets.has(y)) buckets.set(y, []);
+    buckets.get(y)!.push(post);
+}
+
+for (const [y, arr] of buckets) arr.sort(cmpByDateDesc);
+
+const years = Array.from(buckets.keys()).sort((a, b) => {
+    if (a === "Undated") return 1;
+    if (b === "Undated") return -1;
+    return Number(b) - Number(a);
+});
+---
+
+<>
+    {favorites.length > 0 && <PostList posts={favorites} title="Favorites" />}
+
+    {
+        years.map((y) => {
+            const list = buckets.get(y) ?? [];
+            if (list.length === 0) return null;
+            return <PostList posts={list} title={y} />;
+        })
+    }
+</>

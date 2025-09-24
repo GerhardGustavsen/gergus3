@@ -1,0 +1,74 @@
+---
+import type { CollectionEntry } from "astro:content";
+const { frontmatter } = Astro.props as {
+    frontmatter: CollectionEntry<"reviews">["data"];
+};
+
+const fullStars = "★".repeat(frontmatter.rating);
+const emptyStars = "☆".repeat(5 - frontmatter.rating);
+---
+
+<article class="review">
+    <header>
+        {
+            frontmatter.cover && (
+                <img
+                    class="cover"
+                    src={frontmatter.cover}
+                    alt={`Cover: ${frontmatter.title}`}
+                />
+            )
+        }
+        <h1>{frontmatter.title}</h1>
+        {frontmatter.author && <p class="author">{frontmatter.author}</p>}
+        <p class="meta">
+            <span class="stars" aria-label={`Rating ${frontmatter.rating} of 5`}
+                >{fullStars}{emptyStars}</span
+            >
+            {
+                frontmatter.favorite && (
+                    <span class="fav" title="Favorite">
+                        ★ Favorite
+                    </span>
+                )
+            }
+            <span class="date"
+                >{frontmatter.date.toLocaleDateString("en-GB")}</span
+            >
+            {
+                frontmatter.isbn && (
+                    <span class="isbn">ISBN {frontmatter.isbn}</span>
+                )
+            }
+        </p>
+    </header>
+
+    <slot />
+</article>
+
+<style>
+    .review {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    .cover {
+        width: 180px;
+        height: auto;
+        float: right;
+        margin: 0 0 1rem 1rem;
+    }
+    .meta {
+        display: flex;
+        gap: 0.75rem;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+    .stars {
+        letter-spacing: 0.05em;
+        font-size: 1.1rem;
+    }
+    .fav {
+        color: var(--accent, #eab308);
+        font-weight: 600;
+    }
+</style>

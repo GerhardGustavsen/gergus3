@@ -60,31 +60,30 @@ import DarkMode from "./DarkMode.astro";
         </li>
 
         <li>
-          what I love
+          what I like
           <ul>
             <li>
-              <a
-                href="/books"
-                class={path.startsWith("/writings") ? "active" : ""}>books</a
+              <a href="/books" class={path.startsWith("/books") ? "active" : ""}
+                >books</a
               >
             </li>
             <li>
               <a
                 href="/movies"
-                class={path.startsWith("/writings") ? "active" : ""}>movies</a
+                class={path.startsWith("/movies") ? "active" : ""}>movies</a
               >
             </li>
             <li>
               <a
                 href="/archive"
-                class={path.startsWith("/writings") ? "active" : ""}>archive</a
+                class={path.startsWith("/archive") ? "active" : ""}>archive</a
               >
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="/links" class={path.startsWith("/writings") ? "active" : ""}
+          <a href="/links" class={path.startsWith("/links") ? "active" : ""}
             >my links</a
           >
         </li>

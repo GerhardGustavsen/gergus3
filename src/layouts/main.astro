@@ -17,7 +17,6 @@ import "./global.css";
 <!-- ######################## CSS ######################## -->
 
 <style>
-  html,
   body {
     font-family: "Fira Sans", sans-serif, sans;
     line-height: 1.3;
@@ -31,5 +30,13 @@ import "./global.css";
     background-image: url("/images/texture.png");
     background-repeat: repeat;
     background-size: 400px;
+  }
+</style>
+
+<style is:inline>
+  :root.dark {
+    body {
+      background-image: none;
+    }
   }
 </style>

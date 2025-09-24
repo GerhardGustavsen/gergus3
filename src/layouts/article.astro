@@ -38,7 +38,6 @@ const { frontmatter } = Astro.props;
 
     .title {
       text-align: center;
-      color: var(--color-accent);
       border-bottom: 1px solid var(--color-bg-dark);
       margin-right: 1.2em;
       padding-bottom: 0.3em;
@@ -94,7 +93,7 @@ const { frontmatter } = Astro.props;
         max-height: 30em;
 
         border-radius: 0.2em;
-        box-shadow: 0 0 8px var(--color-text);
+        box-shadow: 0 0 8px black;
       }
     }
     :global(p:has(> img:only-child)) {

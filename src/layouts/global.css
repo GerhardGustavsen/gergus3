@@ -38,28 +38,28 @@ select {
     /* BASE */
     --color-bg: #ffffff;
     --color-fg: #222222;
+    --color-accent: #009400;
 
     --color-bg-dark: #535353;
     --color-backdrop: #00000018;
 
     --color-text: var(--color-fg);
     --color-text-blockquote: #353535;
-    --color-text-link: #8a2be2;
+    --color-text-link: var(--color-accent);
 
-    --color-accent: #8a2be2;
 }
 
 :root.dark {
-    /* BASE */
-    --color-bg: #130010;
-    --color-fg: #f3f3f3;
+    --color-bg: #141214;
+    --color-fg: #fffefa;
+    --color-accent: #8a2be2;
 
-    --color-bg-dark: #c7c7c7;
-    --color-backdrop: #ffffff18;
+    --color-bg-dark: #b4b4b4;
+    --color-backdrop: #ffffff07;
 
     --color-text: var(--color-fg);
-    --color-text-blockquote: #353535;
-    --color-text-link: #8a2be2;
+    --color-text-blockquote: #d1d1d1;
+    --color-text-link: var(--color-accent);
 
-    --color-accent: #8a2be2;
+
 }

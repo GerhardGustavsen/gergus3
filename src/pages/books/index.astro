@@ -1,17 +1,17 @@
 ---
 import Layout from "../../layouts/default.astro";
-import IndexList from "../../components/PostList/PostGroups.astro";
+import IndexList from "../../components/MediaList/MediaGroups.astro";
 const modules = import.meta.glob("./*.md", { eager: true });
-const posts = Object.values(modules);
+const media = Object.values(modules);
 ---
 
 <Layout>
   <div class="feed">
     <div class="titleBox">
-      <h1 class="title">my wrightings 🖊</h1>
+      <h1 class="title">books I read 📖︎</h1>
       <p class="about">Here i ... and a bit of sssdjkad. enjoy!</p>
     </div>
-    <IndexList posts={posts} groups={["two"]} />
+    <IndexList media={media} groups={["two"]} />
   </div>
 </Layout>
 
