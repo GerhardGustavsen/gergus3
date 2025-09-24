@@ -3,11 +3,23 @@ import PostList from "./MovieList.astro";
 
 interface Props {
     media: any[];
-    groupBy: string; // e.g. "director", "year", "tags"
-    favorites?: boolean; // default false
+    groupBy?: string | string[]; // can be string or array
+    favorites?: boolean; // show favorites section or not
 }
 
-const { media, groupBy = "director", favorites = true } = Astro.props;
+const { media, groupBy = ["year", "genre"], favorites = true } = Astro.props;
+
+// Normalize to an array and set defaults
+const groupKeys: string[] = Array.isArray(groupBy)
+    ? groupBy.length
+        ? groupBy
+        : ["director", "year", "genre"]
+    : groupBy
+      ? [groupBy]
+      : ["director", "year", "genre"];
+
+// Use the first key for actual grouping
+const groupKey = groupKeys[0];
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
@@ -24,22 +36,26 @@ function cmpMovies(a: any, b: any) {
     return yb - ya;
 }
 
-// Favorites (only filtered if enabled)
+// Favorites (only if enabled)
 const favs = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 
-// Group by chosen attribute
+// Group by chosen key
 const buckets = new Map<string, any[]>();
 for (const post of media) {
     const f = fm(post);
-    const key = f[groupBy] ?? `Unknown ${groupBy}`;
+    const keyRaw = f[groupKey];
+    const key =
+        keyRaw == null || keyRaw === ""
+            ? `Unknown ${groupKey}`
+            : String(keyRaw);
     if (!buckets.has(key)) buckets.set(key, []);
     buckets.get(key)!.push(post);
 }
 
 // Sort inside each bucket
-for (const [key, arr] of buckets) arr.sort(cmpMovies);
+for (const [, arr] of buckets) arr.sort(cmpMovies);
 
-// Sort group keys
+// Sort group keys (case-insensitive)
 const groups = Array.from(buckets.keys()).sort((a, b) =>
     a.toLowerCase().localeCompare(b.toLowerCase()),
 );
@@ -52,11 +68,38 @@ const groups = Array.from(buckets.keys()).sort((a, b) =>
         )
     }
 
+    {/* Buttons generated from groupKeys; no behavior yet */}
+    <div class="groupby-buttons" aria-label="Group by">
+        {
+            groupKeys.map((k) => (
+                <button type="button" class="groupby-btn" data-key={k} key={k}>
+                    {k}
+                </button>
+            ))
+        }
+    </div>
+
     {
         groups.map((g) => {
             const list = buckets.get(g) ?? [];
             if (list.length === 0) return null;
-            return <PostList posts={list} title={g} />;
+            return <PostList posts={list} title={g} key={g} />;
         })
     }
+
+    <style>
+        .groupby-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.75rem 0 1.25rem;
+            flex-wrap: wrap;
+        }
+        .groupby-btn {
+            padding: 0.35rem 0.6rem;
+            border: 1px solid #888;
+            border-radius: 0.4rem;
+            background: transparent;
+            cursor: default;
+        }
+    </style>
 </>
