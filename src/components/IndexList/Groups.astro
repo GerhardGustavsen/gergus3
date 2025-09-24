@@ -1,5 +1,6 @@
 ---
-import PostList from "./MovieList.astro";
+import PostList from "./Lists/MovieList.astro";
+import GroupButtons from "./GroupsBtn.astro";
 
 interface Props {
     media: any[];
@@ -53,21 +54,8 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
     )
 }
 
-{
-    groupBy.length > 1 && (
-        <div class="groupby-buttons" aria-label="Group by">
-            {groupBy.map((k, i) => (
-                <button
-                    type="button"
-                    class={`groupby-btn ${i === 0 ? "active" : ""}`}
-                    data-key={k}
-                >
-                    {k}
-                </button>
-            ))}
-        </div>
-    )
-}
+<!-- buttons extracted -->
+<GroupButtons keys={groupBy} />
 
 {
     prebuilt.map(({ key, groups, buckets }, i) => (
@@ -82,41 +70,20 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 }
 
 <style>
-    .groupby-buttons {
-        display: flex;
-        gap: 0.5rem;
-        margin: 0.75rem 0 1.25rem;
-        flex-wrap: wrap;
-    }
-    .groupby-btn {
-        padding: 0.35rem 0.6rem;
-        border: 1px solid #888;
-        border-radius: 0.4rem;
-        background: transparent;
-        cursor: pointer;
-    }
-    .groupby-btn.active {
-        background: #eee;
-        font-weight: 600;
-    }
     .hidden {
         display: none;
     }
 </style>
 
 <script is:inline>
-    const btns = document.querySelectorAll(".groupby-btn");
-    const sets = document.querySelectorAll(".groupset");
-
-    if (btns.length > 1) {
-        btns.forEach((b) => {
-            b.addEventListener("click", () => {
-                const key = b.dataset.key;
-                btns.forEach((x) => x.classList.toggle("active", x === b));
-                sets.forEach((s) =>
-                    s.classList.toggle("hidden", s.dataset.key !== key),
-                );
-            });
-        });
-    }
+    // listen for the bubbled event and toggle visibility (same behavior as before)
+    document.addEventListener("groupby-change", (e) => {
+        const key = e.detail?.key;
+        if (!key) return;
+        document
+            .querySelectorAll(".groupset")
+            .forEach((s) =>
+                s.classList.toggle("hidden", s.dataset.key !== key),
+            );
+    });
 </script>

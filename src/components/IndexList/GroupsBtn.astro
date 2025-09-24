@@ -44,7 +44,7 @@ const show = keys.length > 1;
 </style>
 
 <script is:inline>
-    const root = document.currentScript.closest(".groupby-buttons");
+    const root = document.querySelector(".groupby-buttons");
     if (root) {
         root.addEventListener("click", (e) => {
             const btn = e.target.closest("button.groupby-btn");

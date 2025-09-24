@@ -1,7 +1,7 @@
 ---
 title: Gone Girl
 director: David Fincher
-year: 2014
+year: 2011
 genre: thriler
 rating: 5
 favorite: true
