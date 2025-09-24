@@ -1,0 +1,114 @@
+---
+const { posts = [], title = "" } = Astro.props;
+
+function fm(p: any) {
+    return p.frontmatter ?? p.data ?? {};
+}
+
+function fmtDate(d: string | Date) {
+    try {
+        return new Date(d).toLocaleDateString("en-GB");
+    } catch {
+        return String(d ?? "");
+    }
+}
+
+function stars(n: any) {
+    const v = Math.max(0, Math.min(5, Number(n) || 0));
+    return "★★★★★☆☆☆☆☆".slice(5 - v, 10 - v);
+}
+---
+
+<ul class="list">
+    {title && <h3 class="title">{title}</h3>}
+    {
+        posts.map((post: any) => {
+            const f = fm(post);
+            return (
+                <li class="element">
+                    <a href={post.url}>
+                        <div class="x">
+                            <img class="cover" src={f.img} loading="lazy" />
+
+                            <div class="y">
+                                <div class="book">
+                                    {f.title ?? post.slug ?? post.id}
+                                </div>
+                                <span class="author">{f.author}</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="x">
+                        <div class="y">
+                            <div class="date">{fmtDate(f.date)}</div>
+                            <div class="rating">{stars(f.rating)}</div>
+                        </div>
+                    </div>
+                </li>
+            );
+        })
+    }
+</ul>
+
+<!-- ######################## CSS ######################## -->
+<style>
+    .list {
+        margin: 5em 1em;
+
+        .title {
+            border-bottom: 1px solid var(--color-backdrop);
+            padding-bottom: 0.5em;
+        }
+
+        .element {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--color-backdrop);
+
+            padding: 0.5em;
+        }
+        .element:last-child {
+            border-bottom: none;
+        }
+        .element:hover {
+            .book {
+                text-decoration: underline;
+            }
+        }
+
+        .x {
+            display: flex;
+        }
+        .y {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+
+        .cover {
+            min-height: 82px;
+            width: 60px;
+            border-radius: 1px;
+            background: var(--color-backdrop);
+        }
+
+        .book {
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+        .author {
+            font-size: 0.9em;
+            color: var(--color-bg-dark);
+        }
+        .author::before {
+            content: "- ";
+        }
+
+        .date {
+            color: var(--color-bg-dark);
+        }
+        .rating {
+        }
+    }
+</style>

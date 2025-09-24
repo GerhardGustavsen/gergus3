@@ -1,60 +1,57 @@
 ---
-import PostList from "./Lists/MovieList.astro";
+import DefaultList from "./Lists/Books.astro";
 import GroupButtons from "./GroupsBtn.astro";
 
 interface Props {
     media: any[];
     groupBy?: string[];
     favorites?: boolean;
+    List?: any; // keep it simple if you don't care about TS here
 }
 
-const { media, groupBy = ["director", "year"], favorites = true } = Astro.props;
+const {
+    media,
+    groupBy = ["director", "year"],
+    favorites = true,
+    List = DefaultList,
+} = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
 }
 
 function cmp(a: any, b: any) {
-    const fa = fm(a);
-    const fb = fm(b);
-    const da = new Date(fa.date ?? 0).getTime();
-    const db = new Date(fb.date ?? 0).getTime();
+    const da = new Date(fm(a).date ?? 0).getTime();
+    const db = new Date(fm(b).date ?? 0).getTime();
     return db - da; // newest first
 }
 
-// Build buckets for a given key (server-side)
 function buildBuckets(key: string) {
     const buckets = new Map<string, any[]>();
     for (const post of media) {
         const f = fm(post);
         const raw = f[key];
-        const k = raw == null || raw === "" ? `Unknown ${key}` : String(raw);
+        const k = raw == null || raw === "" ? `No ${key}` : String(raw);
         if (!buckets.has(k)) buckets.set(k, []);
         buckets.get(k)!.push(post);
     }
-    // sort inside each bucket
     for (const [, arr] of buckets) arr.sort(cmp);
-    // sort bucket titles
     const groups = Array.from(buckets.keys()).sort((a, b) =>
         a.toLowerCase().localeCompare(b.toLowerCase()),
     );
     return { groups, buckets };
 }
 
-// Precompute all bucket-sets (one per key)
 const prebuilt = groupBy.map((k) => ({ key: k, ...buildBuckets(k) }));
-
-// Favorites (optional)
 const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 ---
 
 {
     favorites && favoritesList.length > 0 && (
-        <PostList posts={favoritesList} title="My all time favorites:" />
+        <List posts={favoritesList} title="My all time favorites:" />
     )
 }
 
-<!-- buttons extracted -->
 <GroupButtons keys={groupBy} />
 
 {
@@ -63,7 +60,7 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
             {groups.map((g) => {
                 const list = buckets.get(g) ?? [];
                 if (list.length === 0) return null;
-                return <PostList posts={list} title={g} />;
+                return <List posts={list} title={g} />;
             })}
         </section>
     ))
@@ -76,7 +73,6 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 </style>
 
 <script is:inline>
-    // listen for the bubbled event and toggle visibility (same behavior as before)
     document.addEventListener("groupby-change", (e) => {
         const key = e.detail?.key;
         if (!key) return;
