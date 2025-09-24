@@ -1,9 +1,10 @@
 ---
 import Layout from "../../layouts/default.astro";
-import IndexList from "../../components/PostList/PostGroups.astro";
+import IndexList from "../../components/IndexList/Groups.astro";
+import List from "../../components/IndexList/Lists/Texts.astro";
 import Title from "../../components/Title/Title.astro";
 const modules = import.meta.glob("./*.md", { eager: true });
-const posts = Object.values(modules);
+const media = Object.values(modules);
 ---
 
 <Layout>
@@ -11,5 +12,5 @@ const posts = Object.values(modules);
     title="my wrightings 🖊"
     about="Here i ... and a bit of sssdjkad. enjoy!"
   />
-  <IndexList posts={posts} groups={["two"]} />
+  <IndexList media={media} groupBy={["time", "catagory"]} List={List} />
 </Layout>
