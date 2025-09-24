@@ -7,26 +7,18 @@ interface Props {
     favorites?: boolean;
 }
 
-const {
-    media,
-    groupBy = ["director", "year", "genre"],
-    favorites = true,
-} = Astro.props;
+const { media, groupBy = ["director"], favorites = true } = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
 }
 
-// Sort by rating desc, then year desc
-function cmpMovies(a: any, b: any) {
+function cmp(a: any, b: any) {
     const fa = fm(a);
     const fb = fm(b);
-    const ra = fa.rating ?? 0;
-    const rb = fb.rating ?? 0;
-    if (ra !== rb) return rb - ra;
-    const ya = Number(fa.year ?? 0);
-    const yb = Number(fb.year ?? 0);
-    return yb - ya;
+    const da = new Date(fa.date ?? 0).getTime();
+    const db = new Date(fb.date ?? 0).getTime();
+    return db - da; // newest first
 }
 
 // Build buckets for a given key (server-side)
@@ -40,7 +32,7 @@ function buildBuckets(key: string) {
         buckets.get(k)!.push(post);
     }
     // sort inside each bucket
-    for (const [, arr] of buckets) arr.sort(cmpMovies);
+    for (const [, arr] of buckets) arr.sort(cmp);
     // sort bucket titles
     const groups = Array.from(buckets.keys()).sort((a, b) =>
         a.toLowerCase().localeCompare(b.toLowerCase()),
