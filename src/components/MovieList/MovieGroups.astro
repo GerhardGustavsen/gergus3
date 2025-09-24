@@ -3,28 +3,21 @@ import PostList from "./MovieList.astro";
 
 interface Props {
     media: any[];
-    groupBy?: string | string[]; // can be string or array
-    favorites?: boolean; // show favorites section or not
+    groupBy?: string[];
+    favorites?: boolean;
 }
 
-const { media, groupBy = ["year", "genre"], favorites = true } = Astro.props;
-
-// Normalize to an array and set defaults
-const groupKeys: string[] = Array.isArray(groupBy)
-    ? groupBy.length
-        ? groupBy
-        : ["director", "year", "genre"]
-    : groupBy
-      ? [groupBy]
-      : ["director", "year", "genre"];
-
-// Use the first key for actual grouping
-const groupKey = groupKeys[0];
+const {
+    media,
+    groupBy = ["director", "year", "genre"],
+    favorites = true,
+} = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
 }
 
+// Sort by rating desc, then year desc
 function cmpMovies(a: any, b: any) {
     const fa = fm(a);
     const fb = fm(b);
@@ -36,70 +29,99 @@ function cmpMovies(a: any, b: any) {
     return yb - ya;
 }
 
-// Favorites (only if enabled)
-const favs = favorites ? media.filter((p) => !!fm(p).favorite) : [];
-
-// Group by chosen key
-const buckets = new Map<string, any[]>();
-for (const post of media) {
-    const f = fm(post);
-    const keyRaw = f[groupKey];
-    const key =
-        keyRaw == null || keyRaw === ""
-            ? `Unknown ${groupKey}`
-            : String(keyRaw);
-    if (!buckets.has(key)) buckets.set(key, []);
-    buckets.get(key)!.push(post);
+// Build buckets for a given key (server-side)
+function buildBuckets(key: string) {
+    const buckets = new Map<string, any[]>();
+    for (const post of media) {
+        const f = fm(post);
+        const raw = f[key];
+        const k = raw == null || raw === "" ? `Unknown ${key}` : String(raw);
+        if (!buckets.has(k)) buckets.set(k, []);
+        buckets.get(k)!.push(post);
+    }
+    // sort inside each bucket
+    for (const [, arr] of buckets) arr.sort(cmpMovies);
+    // sort bucket titles
+    const groups = Array.from(buckets.keys()).sort((a, b) =>
+        a.toLowerCase().localeCompare(b.toLowerCase()),
+    );
+    return { groups, buckets };
 }
 
-// Sort inside each bucket
-for (const [, arr] of buckets) arr.sort(cmpMovies);
+// Precompute all bucket-sets (one per key)
+const prebuilt = groupBy.map((k) => ({ key: k, ...buildBuckets(k) }));
 
-// Sort group keys (case-insensitive)
-const groups = Array.from(buckets.keys()).sort((a, b) =>
-    a.toLowerCase().localeCompare(b.toLowerCase()),
-);
+// Favorites (optional)
+const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 ---
 
-<>
+{
+    favorites && favoritesList.length > 0 && (
+        <PostList posts={favoritesList} title="My all time favorites:" />
+    )
+}
+
+<div class="groupby-buttons" aria-label="Group by">
     {
-        favorites && favs.length > 0 && (
-            <PostList posts={favs} title="My all time favorites:" />
-        )
+        groupBy.map((k, i) => (
+            <button
+                type="button"
+                class={`groupby-btn ${i === 0 ? "active" : ""}`}
+                data-key={k}
+            >
+                {k}
+            </button>
+        ))
     }
+</div>
 
-    {/* Buttons generated from groupKeys; no behavior yet */}
-    <div class="groupby-buttons" aria-label="Group by">
-        {
-            groupKeys.map((k) => (
-                <button type="button" class="groupby-btn" data-key={k} key={k}>
-                    {k}
-                </button>
-            ))
-        }
-    </div>
+{
+    prebuilt.map(({ key, groups, buckets }, i) => (
+        <section class={`groupset ${i === 0 ? "" : "hidden"}`} data-key={key}>
+            {groups.map((g) => {
+                const list = buckets.get(g) ?? [];
+                if (list.length === 0) return null;
+                return <PostList posts={list} title={g} />;
+            })}
+        </section>
+    ))
+}
 
-    {
-        groups.map((g) => {
-            const list = buckets.get(g) ?? [];
-            if (list.length === 0) return null;
-            return <PostList posts={list} title={g} key={g} />;
-        })
+<style>
+    .groupby-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0.75rem 0 1.25rem;
+        flex-wrap: wrap;
     }
+    .groupby-btn {
+        padding: 0.35rem 0.6rem;
+        border: 1px solid #888;
+        border-radius: 0.4rem;
+        background: transparent;
+        cursor: pointer;
+    }
+    .groupby-btn.active {
+        background: #eee;
+        font-weight: 600;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
 
-    <style>
-        .groupby-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin: 0.75rem 0 1.25rem;
-            flex-wrap: wrap;
-        }
-        .groupby-btn {
-            padding: 0.35rem 0.6rem;
-            border: 1px solid #888;
-            border-radius: 0.4rem;
-            background: transparent;
-            cursor: default;
-        }
-    </style>
-</>
+<script is:inline>
+    const btns = document.querySelectorAll(".groupby-btn");
+    const sets = document.querySelectorAll(".groupset");
+    btns.forEach((b) => {
+        b.addEventListener("click", () => {
+            const key = b.dataset.key;
+            // toggle button active
+            btns.forEach((x) => x.classList.toggle("active", x === b));
+            // show matching groupset, hide the rest
+            sets.forEach((s) => {
+                s.classList.toggle("hidden", s.dataset.key !== key);
+            });
+        });
+    });
+</script>
