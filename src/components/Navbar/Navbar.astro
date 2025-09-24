@@ -177,8 +177,9 @@ import DarkMode from "./DarkMode.astro";
     }
     display: none;
 
-    transition: color 0.3s ease;
-
+    p {
+      transition: transform 0.3s ease;
+    }
     z-index: 100;
   }
   .burger:hover {
@@ -216,11 +217,17 @@ import DarkMode from "./DarkMode.astro";
     }
 
     .clicked {
-      color: var(--color-accent);
-    }
+      p:first-child {
+        transform: translateY(0.13em) rotate(-45deg);
+      }
 
-    .clicked:hover {
-      color: var(--color-text);
+      p:nth-child(2) {
+        transform: translateX(-1em);
+      }
+
+      p:last-child {
+        transform: translateY(-0.3em) rotate(45deg);
+      }
     }
   }
 </style>

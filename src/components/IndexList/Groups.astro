@@ -11,7 +11,7 @@ interface Props {
 
 const {
     media,
-    groupBy = ["time"],
+    groupBy = ["time"], // default to time
     favorites = false,
     List = DefaultList,
 } = Astro.props;
@@ -25,6 +25,11 @@ function cmp(a: any, b: any) {
     const db = new Date(fm(b).date ?? 0).getTime();
     return db - da; // newest first
 }
+
+// Special handling for "time"
+const timeFirst = groupBy[0] === "time";
+const otherKeys = groupBy.filter((k) => k !== "time");
+const sortedAll = [...media].sort(cmp); // flat, date-sorted list
 
 function buildBuckets(key: string) {
     const buckets = new Map<string, any[]>();
@@ -40,23 +45,23 @@ function buildBuckets(key: string) {
     // sort posts inside each bucket
     for (const [, arr] of buckets) arr.sort(cmp);
 
-    // sort the bucket keys: numeric descending if numbers, else alpha
+    // numeric groups high→low, else alpha
     const groups = Array.from(buckets.keys()).sort((a, b) => {
         const na = Number(a);
         const nb = Number(b);
-        const aIsNum = !isNaN(na);
-        const bIsNum = !isNaN(nb);
-
-        if (aIsNum && bIsNum) {
-            return nb - na; // highest number first
-        }
+        const aIsNum = !Number.isNaN(na);
+        const bIsNum = !Number.isNaN(nb);
+        if (aIsNum && bIsNum) return nb - na; // highest number first
         return a.toLowerCase().localeCompare(b.toLowerCase());
     });
 
     return { groups, buckets };
 }
 
-const prebuilt = groupBy.map((k) => ({ key: k, ...buildBuckets(k) }));
+// Precompute grouped sets for non-time keys only
+const prebuilt = otherKeys.map((k) => ({ key: k, ...buildBuckets(k) }));
+
+// Favorites (optional)
 const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 ---
 
@@ -68,9 +73,18 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 
 <GroupButtons keys={groupBy} />
 
+<!-- Flat time list (no title) -->
+<section class={`groupset ${timeFirst ? "" : "hidden"}`} data-key="time">
+    <List posts={sortedAll} />
+</section>
+
+<!-- Grouped sections for the other keys -->
 {
     prebuilt.map(({ key, groups, buckets }, i) => (
-        <section class={`groupset ${i === 0 ? "" : "hidden"}`} data-key={key}>
+        <section
+            class={`groupset ${!timeFirst && i === 0 ? "" : "hidden"}`}
+            data-key={key}
+        >
             {groups.map((g) => {
                 const list = buckets.get(g) ?? [];
                 if (list.length === 0) return null;
