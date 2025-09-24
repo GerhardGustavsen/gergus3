@@ -28,6 +28,7 @@ function cmp(a: any, b: any) {
 
 function buildBuckets(key: string) {
     const buckets = new Map<string, any[]>();
+
     for (const post of media) {
         const f = fm(post);
         const raw = f[key];
@@ -35,10 +36,23 @@ function buildBuckets(key: string) {
         if (!buckets.has(k)) buckets.set(k, []);
         buckets.get(k)!.push(post);
     }
+
+    // sort posts inside each bucket
     for (const [, arr] of buckets) arr.sort(cmp);
-    const groups = Array.from(buckets.keys()).sort((a, b) =>
-        a.toLowerCase().localeCompare(b.toLowerCase()),
-    );
+
+    // sort the bucket keys: numeric descending if numbers, else alpha
+    const groups = Array.from(buckets.keys()).sort((a, b) => {
+        const na = Number(a);
+        const nb = Number(b);
+        const aIsNum = !isNaN(na);
+        const bIsNum = !isNaN(nb);
+
+        if (aIsNum && bIsNum) {
+            return nb - na; // highest number first
+        }
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+
     return { groups, buckets };
 }
 

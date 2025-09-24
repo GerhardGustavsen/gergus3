@@ -1,7 +1,8 @@
 ---
 title: Flowers for Algernon
 author: Daniel Keyes
-date: 2025-08-17
+date: 2025-08-10
+year: 1986
 rating: 5
 favorite: true
 cover: /covers/flowers-for-algernon.jpg

@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/default.astro";
-import IndexList from "../../components/BookList/BookGroups.astro";
+import IndexList from "../../components/IndexList/Groups.astro";
+import List from "../../components/IndexList/Lists/Books.astro";
 import Title from "../../components/Title/Title.astro";
 const modules = import.meta.glob("./*.md", { eager: true });
 const media = Object.values(modules);
@@ -11,5 +12,10 @@ const media = Object.values(modules);
     title="books I've read 📖︎"
     about="Here i ... and a bit of sssdjkad. enjoy!"
   />
-  <IndexList media={media} />
+  <IndexList
+    media={media}
+    groupBy={["author", "rating", "year", "date"]}
+    favorites={true}
+    List={List}
+  />
 </Layout>
