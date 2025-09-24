@@ -3,58 +3,120 @@ import PostList from "./MovieList.astro";
 
 interface Props {
     media: any[];
+    groupBy?: string[];
+    favorites?: boolean;
 }
 
-const { media } = Astro.props;
+const { media, groupBy = ["director", "year"], favorites = true } = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
 }
 
-// Compare by rating desc, then by year desc if rating ties
-function cmpMovies(a: any, b: any) {
+function cmp(a: any, b: any) {
     const fa = fm(a);
     const fb = fm(b);
-    const ra = fa.rating ?? 0;
-    const rb = fb.rating ?? 0;
-    if (ra !== rb) return rb - ra;
-    const ya = Number(fa.year ?? 0);
-    const yb = Number(fb.year ?? 0);
-    return yb - ya;
+    const da = new Date(fa.date ?? 0).getTime();
+    const db = new Date(fb.date ?? 0).getTime();
+    return db - da; // newest first
 }
 
-// 1) Favorites
-const favorites = media.filter((p) => !!fm(p).favorite);
-
-// 2) Group by director
-const buckets = new Map<string, any[]>();
-for (const post of media) {
-    const d = fm(post).director ?? "Unknown director";
-    if (!buckets.has(d)) buckets.set(d, []);
-    buckets.get(d)!.push(post);
+// Build buckets for a given key (server-side)
+function buildBuckets(key: string) {
+    const buckets = new Map<string, any[]>();
+    for (const post of media) {
+        const f = fm(post);
+        const raw = f[key];
+        const k = raw == null || raw === "" ? `Unknown ${key}` : String(raw);
+        if (!buckets.has(k)) buckets.set(k, []);
+        buckets.get(k)!.push(post);
+    }
+    // sort inside each bucket
+    for (const [, arr] of buckets) arr.sort(cmp);
+    // sort bucket titles
+    const groups = Array.from(buckets.keys()).sort((a, b) =>
+        a.toLowerCase().localeCompare(b.toLowerCase()),
+    );
+    return { groups, buckets };
 }
 
-// Sort movies within each director
-for (const [d, arr] of buckets) arr.sort(cmpMovies);
+// Precompute all bucket-sets (one per key)
+const prebuilt = groupBy.map((k) => ({ key: k, ...buildBuckets(k) }));
 
-// Sort directors alphabetically (case-insensitive)
-const directors = Array.from(buckets.keys()).sort((a, b) =>
-    a.toLowerCase().localeCompare(b.toLowerCase()),
-);
+// Favorites (optional)
+const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 ---
 
-<>
-    {
-        favorites.length > 0 && (
-            <PostList posts={favorites} title="My all time favorites:" />
-        )
-    }
+{
+    favorites && favoritesList.length > 0 && (
+        <PostList posts={favoritesList} title="My all time favorites:" />
+    )
+}
 
-    {
-        directors.map((d) => {
-            const list = buckets.get(d) ?? [];
-            if (list.length === 0) return null;
-            return <PostList posts={list} title={d} />;
-        })
+{
+    groupBy.length > 1 && (
+        <div class="groupby-buttons" aria-label="Group by">
+            {groupBy.map((k, i) => (
+                <button
+                    type="button"
+                    class={`groupby-btn ${i === 0 ? "active" : ""}`}
+                    data-key={k}
+                >
+                    {k}
+                </button>
+            ))}
+        </div>
+    )
+}
+
+{
+    prebuilt.map(({ key, groups, buckets }, i) => (
+        <section class={`groupset ${i === 0 ? "" : "hidden"}`} data-key={key}>
+            {groups.map((g) => {
+                const list = buckets.get(g) ?? [];
+                if (list.length === 0) return null;
+                return <PostList posts={list} title={g} />;
+            })}
+        </section>
+    ))
+}
+
+<style>
+    .groupby-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0.75rem 0 1.25rem;
+        flex-wrap: wrap;
     }
-</>
+    .groupby-btn {
+        padding: 0.35rem 0.6rem;
+        border: 1px solid #888;
+        border-radius: 0.4rem;
+        background: transparent;
+        cursor: pointer;
+    }
+    .groupby-btn.active {
+        background: #eee;
+        font-weight: 600;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+
+<script is:inline>
+    const btns = document.querySelectorAll(".groupby-btn");
+    const sets = document.querySelectorAll(".groupset");
+
+    if (btns.length > 1) {
+        btns.forEach((b) => {
+            b.addEventListener("click", () => {
+                const key = b.dataset.key;
+                btns.forEach((x) => x.classList.toggle("active", x === b));
+                sets.forEach((s) =>
+                    s.classList.toggle("hidden", s.dataset.key !== key),
+                );
+            });
+        });
+    }
+</script>

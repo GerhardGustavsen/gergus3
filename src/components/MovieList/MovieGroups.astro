@@ -7,7 +7,7 @@ interface Props {
     favorites?: boolean;
 }
 
-const { media, groupBy = ["director"], favorites = true } = Astro.props;
+const { media, groupBy = ["director", "year"], favorites = true } = Astro.props;
 
 function fm(post: any) {
     return post.frontmatter ?? post.data ?? {};
@@ -53,19 +53,21 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
     )
 }
 
-<div class="groupby-buttons" aria-label="Group by">
-    {
-        groupBy.map((k, i) => (
-            <button
-                type="button"
-                class={`groupby-btn ${i === 0 ? "active" : ""}`}
-                data-key={k}
-            >
-                {k}
-            </button>
-        ))
-    }
-</div>
+{
+    groupBy.length > 1 && (
+        <div class="groupby-buttons" aria-label="Group by">
+            {groupBy.map((k, i) => (
+                <button
+                    type="button"
+                    class={`groupby-btn ${i === 0 ? "active" : ""}`}
+                    data-key={k}
+                >
+                    {k}
+                </button>
+            ))}
+        </div>
+    )
+}
 
 {
     prebuilt.map(({ key, groups, buckets }, i) => (
@@ -105,15 +107,16 @@ const favoritesList = favorites ? media.filter((p) => !!fm(p).favorite) : [];
 <script is:inline>
     const btns = document.querySelectorAll(".groupby-btn");
     const sets = document.querySelectorAll(".groupset");
-    btns.forEach((b) => {
-        b.addEventListener("click", () => {
-            const key = b.dataset.key;
-            // toggle button active
-            btns.forEach((x) => x.classList.toggle("active", x === b));
-            // show matching groupset, hide the rest
-            sets.forEach((s) => {
-                s.classList.toggle("hidden", s.dataset.key !== key);
+
+    if (btns.length > 1) {
+        btns.forEach((b) => {
+            b.addEventListener("click", () => {
+                const key = b.dataset.key;
+                btns.forEach((x) => x.classList.toggle("active", x === b));
+                sets.forEach((s) =>
+                    s.classList.toggle("hidden", s.dataset.key !== key),
+                );
             });
         });
-    });
+    }
 </script>
