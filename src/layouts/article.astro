@@ -93,6 +93,14 @@ const { frontmatter } = Astro.props;
         border-radius: 0.2em;
         box-shadow: 0 0 8px var(--color-shadow);
       }
+
+      :global(img:before) {
+        display: block;
+        padding: 4em;
+        text-align: center;
+        font-style: italic;
+        color: var(--color-bg-dark);
+      }
     }
     :global(p:has(> img:only-child)) {
       padding: 2em 1em 2em 1em;

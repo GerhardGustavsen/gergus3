@@ -1,6 +1,7 @@
 ---
 const path = Astro.url.pathname;
 import DarkMode from "./DarkMode.astro";
+import Link from "./link.astro";
 ---
 
 <div>
@@ -9,78 +10,13 @@ import DarkMode from "./DarkMode.astro";
       <ul class="widthbox">
         <li><a href="/" class={path === "/" ? "active" : ""}>home</a></li>
 
-        <li>
-          by me
-          <ul>
-            <li>
-              <a
-                href="/projects"
-                class={path.startsWith("/projects") ? "active" : ""}>projects</a
-              >
-            </li>
-            <li>
-              <a
-                href="/writings"
-                class={path.startsWith("/writings") ? "active" : ""}
-              >
-                writings
-              </a>
-            </li>
-            <li>
-              <a
-                href="/photos"
-                class={path.startsWith("/photos") ? "active" : ""}>photos</a
-              >
-            </li>
-          </ul>
-        </li>
+        <Link pages={["home"]} />
 
-        <li>
-          for you
-          <ul>
-            <li>
-              <a
-                href="/garden"
-                class={path.startsWith("/garden") ? "active" : ""}>garden</a
-              >
-            </li>
-            <li>
-              <a
-                href="/guestbook"
-                class={path.startsWith("/guestbook") ? "active" : ""}
-                >guestbook</a
-              >
-            </li>
-            <li>
-              <a href="/about" class={path.startsWith("/about") ? "active" : ""}
-                >about</a
-              >
-            </li>
-          </ul>
-        </li>
+        <Link title="by me" pages={["projects", "writings", "photos"]} />
+        <Link title="for you" pages={["guestbook", "garden", "about"]} />
+        <Link title="stuff I like" pages={["books", "movies", "shows"]} />
 
-        <li>
-          what I like
-          <ul>
-            <li>
-              <a href="/books" class={path.startsWith("/books") ? "active" : ""}
-                >books</a
-              >
-            </li>
-            <li>
-              <a
-                href="/movies"
-                class={path.startsWith("/movies") ? "active" : ""}>movies</a
-              >
-            </li>
-            <li>
-              <a
-                href="/archive"
-                class={path.startsWith("/archive") ? "active" : ""}>archive</a
-              >
-            </li>
-          </ul>
-        </li>
+        <Link pages={["links"]} />
 
         <li>
           <a href="/links" class={path.startsWith("/links") ? "active" : ""}
@@ -204,7 +140,7 @@ import DarkMode from "./DarkMode.astro";
       visibility: visible;
 
       background-color: var(--color-bg);
-      background-image: url("/images/texture.png");
+      background-image: url(/wallpapers/textureLight.png);
       background-repeat: repeat;
       background-size: 400px;
 

@@ -1,0 +1,62 @@
+---
+interface Props {
+    title?: string;
+    pages: string[];
+}
+
+const { title, pages } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+{
+    title ? (
+        <li class="element">
+            {title}
+            <ul class="collection">
+                {pages.map((page) => (
+                    <li class="page">
+                        <a
+                            href={`/${page}`}
+                            class={path.startsWith(`/${page}`) ? "active" : ""}
+                        >
+                            {page}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </li>
+    ) : (
+        <>
+            {pages.map((page) => (
+                <li class="page element">
+                    <a
+                        href={`/${page}`}
+                        class={path.startsWith(`/${page}`) ? "active" : ""}
+                    >
+                        {page}
+                    </a>
+                </li>
+            ))}
+        </>
+    )
+}
+
+<style>
+    .element {
+        margin-bottom: 1em;
+    }
+
+    .collection {
+        margin-left: 0.5em;
+    }
+
+    .page {
+        margin-top: 0.3em;
+        .active {
+            font-weight: bold;
+        }
+        :hover {
+            text-decoration: underline;
+        }
+    }
+</style>
