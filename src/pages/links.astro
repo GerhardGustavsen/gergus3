@@ -1,0 +1,74 @@
+---
+import Layout from "../layouts/default.astro";
+import Title from "../components/Title/Title.astro";
+
+const friends = ["isak.me", "nuutti.no", "reingundersenbentdal.com"];
+const others = [
+  "savbrown.com",
+  "lukesmith.xyz",
+  "vitalik.eth.limo",
+  "duckmouse.no",
+  "dan-ball.jp/profile.html",
+  "kognise.dev",
+];
+---
+
+<Layout>
+  <Title title="Friends with websites" />
+  <ul class="list">
+    {
+      friends.map((url) => (
+        <li class="element">
+          <a
+            class="link"
+            href={`https://${url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {url}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <Title title="Other cool websites" />
+  <ul class="list">
+    {
+      others.map((url) => (
+        <li class="element">
+          <a
+            class="link"
+            href={`https://${url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {url}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<!-- ######################## CSS ######################## -->
+
+<style>
+  .list {
+    padding: 0em 1em 5em 1em;
+    .element {
+      padding-bottom: 0.3em;
+      padding-top: 0.2em;
+      border-bottom: 1px solid var(--color-backdrop);
+      .link {
+        color: var(--color-accent);
+      }
+      .link:hover {
+        text-decoration: underline;
+      }
+    }
+    .element:last-child {
+      border-bottom: none;
+    }
+  }
+</style>
