@@ -10,19 +10,13 @@ import Link from "./link.astro";
       <ul class="widthbox">
         <li><a href="/" class={path === "/" ? "active" : ""}>home</a></li>
 
-        <Link pages={["home"]} />
+        <Link title="home" pages={[""]} />
 
         <Link title="by me" pages={["projects", "writings", "photos"]} />
         <Link title="for you" pages={["guestbook", "garden", "about"]} />
         <Link title="stuff I like" pages={["books", "movies", "shows"]} />
 
-        <Link pages={["links"]} />
-
-        <li>
-          <a href="/links" class={path.startsWith("/links") ? "active" : ""}
-            >my links</a
-          >
-        </li>
+        <Link title="my links" pages={["links"]} />
       </ul>
       <DarkMode />
     </div>
