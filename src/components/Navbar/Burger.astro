@@ -1,0 +1,43 @@
+---
+interface Props {
+    /** CSS selector for the element to expand (e.g. "#navbar") */
+    target: string;
+}
+const { target } = Astro.props;
+---
+
+<!-- keep your classes/markup -->
+<btn class="burger" role="button" aria-pressed="false" tabindex="0" client:load>
+    <p>~</p>
+    <p>~</p>
+    <p>~</p>
+</btn>
+
+<script>
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector({ target });
+
+    let expanded = false;
+
+    function toggle() {
+        if (expanded) {
+            nav.classList.toggle("animate");
+            setTimeout(() => nav.classList.toggle("expanded"), 200);
+            expanded = false;
+        } else {
+            nav.classList.toggle("expanded");
+            setTimeout(() => nav.classList.toggle("animate"), 0);
+            expanded = true;
+        }
+        burger.classList.toggle("clicked");
+        burger.setAttribute("aria-pressed", String(expanded));
+    }
+
+    burger.addEventListener("click", toggle);
+    burger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+        }
+    });
+</script>

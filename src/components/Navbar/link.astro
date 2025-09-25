@@ -7,6 +7,13 @@ interface Props {
 const { title, pages } = Astro.props;
 const path = Astro.url.pathname;
 const single = pages.length === 1;
+
+function isActive(page: string) {
+    if (page === "" || page === "/") {
+        return path === "/";
+    }
+    return path.startsWith(`/${page}`);
+}
 ---
 
 {
@@ -14,8 +21,8 @@ const single = pages.length === 1;
         single ? (
             <li class="page element">
                 <a
-                    href={`/${pages[0]}`}
-                    class={path.startsWith(`/${pages[0]}`) ? "active" : ""}
+                    href={pages[0] === "" ? "/" : `/${pages[0]}`}
+                    class={isActive(pages[0]) ? "active" : ""}
                 >
                     {title}
                 </a>
@@ -27,12 +34,10 @@ const single = pages.length === 1;
                     {pages.map((page) => (
                         <li class="page">
                             <a
-                                href={`/${page}`}
-                                class={
-                                    path.startsWith(`/${page}`) ? "active" : ""
-                                }
+                                href={page === "" ? "/" : `/${page}`}
+                                class={isActive(page) ? "active" : ""}
                             >
-                                {page}
+                                {page || "home"}
                             </a>
                         </li>
                     ))}
@@ -44,10 +49,10 @@ const single = pages.length === 1;
             {pages.map((page) => (
                 <li class="page element">
                     <a
-                        href={`/${page}`}
-                        class={path.startsWith(`/${page}`) ? "active" : ""}
+                        href={page === "" ? "/" : `/${page}`}
+                        class={isActive(page) ? "active" : ""}
                     >
-                        {page}
+                        {page || "home"}
                     </a>
                 </li>
             ))}
