@@ -6,7 +6,7 @@ import DarkMode from "./DarkMode.astro";
 <div>
   <nav id="navbar" class="navbar">
     <div class="heightbox">
-      <ul>
+      <ul class="widthbox">
         <li><a href="/" class={path === "/" ? "active" : ""}>home</a></li>
 
         <li>
@@ -132,6 +132,10 @@ import DarkMode from "./DarkMode.astro";
     padding-left: 6em;
     transition: opacity 0.2s ease;
     z-index: 100;
+
+    .widthbox {
+      width: 6em;
+    }
 
     ul {
       list-style: none;
