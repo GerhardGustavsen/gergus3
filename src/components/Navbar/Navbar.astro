@@ -1,65 +1,27 @@
 ---
-const path = Astro.url.pathname;
 import DarkMode from "./DarkMode.astro";
 import Link from "./link.astro";
+import Burger from "./Burger.astro";
 ---
 
 <div>
   <nav id="navbar" class="navbar">
-    <div class="heightbox">
-      <ul class="widthbox">
+    <div class="marginAuto">
+      <ul>
         <Link title="home" pages={[""]} />
 
         <Link title="by me" pages={["writings", "projects", "photos"]} />
         <Link title="for you" pages={["guestbook", "garden", "about"]} />
-        <Link
-          title="stuff I like"
-          pages={[
-            "books",
-            "movies",
-            "youtube",
-            "articles",
-            "shows",
-            "music",
-            "videos",
-          ]}
-        />
-
+        <Link title="stuff I like" pages={["movies", "books", "more"]} />
         <Link title="my links" pages={["links"]} />
       </ul>
       <DarkMode />
     </div>
   </nav>
 
-  <btn class="burger">
-    <p>~</p>
-    <p>~</p>
-    <p>~</p>
-  </btn>
+  <Burger target="#navbar" />
 </div>
 
-<script is:inline>
-  let expanded = false;
-
-  const nav = document.getElementById("navbar");
-  const burger = document.querySelector(".burger");
-  burger.addEventListener("click", () => {
-    if (expanded === true) {
-      nav.classList.toggle("animate");
-      setTimeout(() => {
-        nav.classList.toggle("expanded");
-      }, 200);
-      expanded = false;
-    } else {
-      nav.classList.toggle("expanded");
-      setTimeout(() => {
-        nav.classList.toggle("animate");
-      }, 0);
-      expanded = true;
-    }
-    burger.classList.toggle("clicked");
-  });
-</script>
 <!-- ######################## CSS ######################## -->
 
 <style>
@@ -73,37 +35,10 @@ import Link from "./link.astro";
     z-index: 100;
   }
 
-  .burger {
-    font-size: 2.5em;
-    width: 1em;
-    height: 1em;
-    position: fixed;
-    cursor: pointer;
-    color: var(--color-text);
-    p {
-      margin: -0.33em 0em -1.06em 0.07em;
-
-      user-select: none;
-    }
-    display: none;
-
-    p {
-      transition: transform 0.3s ease;
-    }
-    z-index: 100;
-  }
-  .burger:hover {
-    color: var(--color-accent);
-  }
-
   @media (max-width: calc(1100px)) {
     .navbar {
       visibility: hidden;
       opacity: 0;
-    }
-
-    .burger {
-      display: block;
     }
 
     .expanded {
@@ -117,27 +52,13 @@ import Link from "./link.astro";
       z-index: 100;
       width: 100%;
       padding-left: 0;
-      .heightbox {
+      .marginAuto {
         margin: auto;
       }
     }
 
     .animate {
       opacity: 1;
-    }
-
-    .clicked {
-      p:first-child {
-        transform: translateY(0.13em) rotate(-45deg);
-      }
-
-      p:nth-child(2) {
-        transform: translateX(-1em);
-      }
-
-      p:last-child {
-        transform: translateY(-0.3em) rotate(45deg);
-      }
     }
   }
 </style>

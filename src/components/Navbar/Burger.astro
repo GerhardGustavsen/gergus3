@@ -1,21 +1,26 @@
 ---
 interface Props {
-    /** CSS selector for the element to expand (e.g. "#navbar") */
     target: string;
 }
 const { target } = Astro.props;
 ---
 
-<!-- keep your classes/markup -->
-<btn class="burger" role="button" aria-pressed="false" tabindex="0" client:load>
+<btn
+    class="burger"
+    role="button"
+    aria-pressed="false"
+    tabindex="0"
+    data-target={target}
+    client:load
+>
     <p>~</p>
     <p>~</p>
     <p>~</p>
 </btn>
 
 <script>
-    const burger = document.querySelector(".burger");
-    const nav = document.querySelector({ target });
+    const burger = document.querySelector(".burger") as any;
+    const nav = document.querySelector(burger?.dataset.target);
 
     let expanded = false;
 
@@ -29,15 +34,58 @@ const { target } = Astro.props;
             setTimeout(() => nav.classList.toggle("animate"), 0);
             expanded = true;
         }
-        burger.classList.toggle("clicked");
-        burger.setAttribute("aria-pressed", String(expanded));
+        burger?.classList.toggle("clicked");
+        burger?.setAttribute("aria-pressed", String(expanded));
     }
 
-    burger.addEventListener("click", toggle);
-    burger.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggle();
-        }
-    });
+    burger?.addEventListener("click", toggle);
 </script>
+
+<style>
+    .burger {
+        font-size: 2.5em;
+        width: 1em;
+        height: 1em;
+        position: fixed;
+        cursor: pointer;
+        color: var(--color-text);
+        p {
+            margin: -0.33em 0em -1.06em 0.07em;
+
+            user-select: none;
+        }
+        display: none;
+
+        p {
+            transition: transform 0.3s ease;
+        }
+        z-index: 100;
+    }
+    .burger:hover {
+        color: var(--color-accent);
+    }
+
+    @media (max-width: calc(1100px)) {
+        .navbar {
+            visibility: hidden;
+            opacity: 0;
+        }
+        .burger {
+            display: block;
+        }
+
+        .clicked {
+            p:first-child {
+                transform: translateY(0.13em) rotate(-45deg);
+            }
+
+            p:nth-child(2) {
+                transform: translateY(-0.05em) rotate(45deg);
+            }
+
+            p:last-child {
+                transform: translateY(0.1em);
+            }
+        }
+    }
+</style>

@@ -1,0 +1,54 @@
+---
+import Layout from "../../layouts/default.astro";
+import Title from "../../components/Title/Title.astro";
+
+const catagories = ["albums", "youtube", "articles", "series"];
+---
+
+<Layout>
+  <Title
+    title="More stuff I like ♥"
+    about="Here i ... and a bit of sssdjkad. enjoy!"
+  />
+
+  <ul class="list">
+    {
+      catagories.map((url) => (
+        <li class="element">
+          <a
+            class="link"
+            href={`/more/${url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {url}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<style>
+  .list {
+    padding: 0em 1em 5em 1em;
+    max-width: 15em;
+    margin: auto;
+  }
+  .element {
+    padding-bottom: 0.3em;
+    padding-top: 0.2em;
+    border-bottom: 1px solid var(--color-backdrop);
+    text-align: center;
+  }
+  .link {
+    font-size: 1.2em;
+    color: var(--color-accent);
+  }
+  .link:hover {
+    text-decoration: underline;
+  }
+  .element:last-child {
+    border-bottom: none;
+  }
+</style>
