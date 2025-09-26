@@ -22,85 +22,152 @@ import meImg from "../assets/me.jpg";
   <div class="likeBox">
     <div class="subbox">
       <h3>Some software I use:</h3>
-      <a href="https://syncthing.net/" target="_blank" rel="noopener noreferrer"
-        >syncthing</a
-      >
-      <a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer"
-        >obsidian</a
-      >
-      <a href="https://nixos.org/" target="_blank" rel="noopener noreferrer"
-        >nixos</a
-      >
-      <a href="https://fishshell.com/" target="_blank" rel="noopener noreferrer"
-        >fish</a
-      >
-      <a
-        href="https://code.visualstudio.com/"
-        target="_blank"
-        rel="noopener noreferrer"><span class="line">nvim</span> vscode</a
-      >
+      <div class="flexbox">
+        <a
+          href="https://syncthing.net/"
+          target="_blank"
+          rel="noopener noreferrer">syncthing</a
+        >
+        <a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer"
+          >obsidian</a
+        >
+        <a href="https://nixos.org/" target="_blank" rel="noopener noreferrer"
+          >nixos</a
+        >
+        <a
+          href="https://code.visualstudio.com/"
+          target="_blank"
+          rel="noopener noreferrer"><span class="line">nvim</span> vscode</a
+        >
+        <a
+          href="https://fishshell.com/"
+          target="_blank"
+          rel="noopener noreferrer">fish</a
+        >
+      </div>
     </div>
     <div class="subbox">
       <h3>Contact me:</h3>
-      <a> gerhard.page@proton.com</a>
-      <a> my github</a>
-      <a> site github</a>
+      <div class="flexbox">
+        <a href="mailto:gerhard.page@proton.com">gerhard.page@proton.com</a>
+        <p class="center">&</p>
+        <a
+          href="https://github.com/GerhardMe"
+          target="_blank"
+          rel="noopener noreferrer">github</a
+        >
+      </div>
     </div>
   </div>
+  <a
+    class="site"
+    href="https://github.com/GerhardMe/gergus3"
+    target="_blank"
+    rel="noopener noreferrer">site source</a
+  >
+</Layout>
 
-  <style>
-    .meBox {
-      padding: 0 1em;
-      min-height: 16em;
-      img {
-        float: left;
-        shape-outside: circle();
-        border-radius: 50%;
-        width: 15em;
-        height: auto;
-        margin: 0 1em 1em 0;
-        box-shadow: 0.03em 0.03em 0.5em var(--color-shadow);
-      }
-
-      p {
-        .hi {
-          font-size: 1.5em;
-          font-weight: bold;
-          font-family: "Times New Roman";
-          color: var(--color-accent);
-        }
-      }
+<style>
+  .meBox {
+    padding: 0 1em;
+    min-height: 16em;
+    img {
+      float: left;
+      shape-outside: circle();
+      border-radius: 50%;
+      width: 15em;
+      height: auto;
+      margin: 0 1em 1em 0;
+      box-shadow: 0.03em 0.03em 0.5em var(--color-shadow);
     }
 
-    h3 {
-      text-align: center;
-      padding-bottom: 0.5em;
+    p {
+      .hi {
+        font-size: 1.5em;
+        font-weight: bold;
+        font-family: "Times New Roman";
+        color: var(--color-accent);
+      }
     }
+  }
 
-    .likeBox {
-      display: flex;
-      .subbox {
-        padding: 1em;
-        width: 50%;
+  h3 {
+    text-align: center;
+    padding-bottom: 0.7em;
+  }
 
+  .likeBox {
+    display: flex;
+    .subbox {
+      padding: 1em;
+      width: 50%;
+
+      .flexbox {
         display: flex;
         flex-direction: column;
+        height: 8em;
+      }
 
-        a {
-          text-align: center;
-          color: var(--color-accent);
-          cursor: pointer;
-
-          padding-bottom: 0.3em;
-        }
-        a:hover {
-          text-decoration: underline;
-        }
-
-        .line {
-          text-decoration: line-through;
-        }
+      .line {
+        text-decoration: line-through;
+        padding-left: 4em;
       }
     }
-  </style>
-</Layout>
+
+    padding-bottom: 0.5em;
+  }
+
+  a {
+    text-align: center;
+    color: var(--color-accent);
+    cursor: pointer;
+    margin-bottom: 0.3em;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:last-child {
+    border-bottom: none;
+  }
+
+  .site {
+    border-top: 1px solid var(--color-bg-dark);
+    margin: 1em;
+    padding-top: 3em;
+    display: block;
+    margin: center;
+    text-justify: center;
+  }
+
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 900px) {
+    .meBox {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        margin: auto;
+        margin-top: -2em;
+        margin-bottom: 2em;
+      }
+      p {
+        text-align: center;
+      }
+      padding-bottom: 2em;
+    }
+    .likeBox {
+      flex-direction: column;
+
+      .subbox {
+        width: 100%;
+      }
+    }
+    .site {
+      margin-top: -2em;
+    }
+  }
+</style>
